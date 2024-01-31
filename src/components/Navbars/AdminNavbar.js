@@ -4,9 +4,7 @@
 * Black Dashboard React v1.2.2
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
+
 
 * Coded by Creative Tim
 
@@ -38,8 +36,15 @@ import {
   NavbarToggler,
   ModalHeader,
 } from "reactstrap";
+import { logOut } from "actions/loginAction";
+import { useDispatch, useSelector } from "react-redux";
 
+import { useNavigate } from "react-router";
+import Config from "../../Config";
 function AdminNavbar(props) {
+  const navigation = useNavigate();
+  const dispatch = useDispatch();
+  let { user } = useSelector((state) => state.loginData);
   const [collapseOpen, setcollapseOpen] = React.useState(false);
   const [modalSearch, setmodalSearch] = React.useState(false);
   const [color, setcolor] = React.useState("navbar-transparent");
@@ -151,7 +156,14 @@ function AdminNavbar(props) {
                   onClick={(e) => e.preventDefault()}
                 >
                   <div className="photo">
-                    <img alt="..." src={require("assets/img/anime3.png")} />
+                    <img
+                      alt="..."
+                      src={
+                        user.pic
+                          ? `${Config.S3_PREFIX + user.pic}`
+                          : require("assets/img/anime3.png")
+                      }
+                    />
                   </div>
                   <b className="caret d-none d-lg-block d-xl-block" />
                   <p className="d-lg-none">Log out</p>
@@ -165,7 +177,18 @@ function AdminNavbar(props) {
                   </NavLink>
                   <DropdownItem divider tag="li" />
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Log out</DropdownItem>
+                    <DropdownItem
+                      onClick={() => {
+                        dispatch(logOut())
+                          .then((resp) => {
+                            navigation("/login");
+                          })
+                          .catch((err) => {});
+                      }}
+                      className="nav-item"
+                    >
+                      Log out
+                    </DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>

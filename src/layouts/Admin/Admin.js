@@ -4,9 +4,7 @@
 * Black Dashboard React v1.2.2
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
+
 
 * Coded by Creative Tim
 
@@ -24,16 +22,16 @@ import PerfectScrollbar from "perfect-scrollbar";
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
+// import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
 
-import logo from "assets/img/react-logo.png";
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 
 var ps;
 
 function Admin(props) {
+  const logo = "https://console.connecttherelevant.com/assets/favicon.png";
   const location = useLocation();
   const mainPanelRef = React.useRef(null);
   const [sidebarOpened, setsidebarOpened] = React.useState(
@@ -105,8 +103,8 @@ function Admin(props) {
             <Sidebar
               routes={routes}
               logo={{
-                outterLink: "https://www.creative-tim.com/",
-                text: "Creative Tim",
+                outterLink: "https://connecttherelevant.com/",
+                text: "Connect...",
                 imgSrc: logo,
               }}
               toggleSidebar={toggleSidebar}
@@ -126,11 +124,11 @@ function Admin(props) {
               </Routes>
               {
                 // we don't want the Footer to be rendered on map page
-                location.pathname === "/admin/maps" ? null : <Footer fluid />
+                // location.pathname === "/admin/maps" ? null : <Footer fluid />
               }
             </div>
           </div>
-          <FixedPlugin bgColor={color} handleBgClick={changeColor} />
+          {/* <FixedPlugin bgColor={color} handleBgClick={changeColor} /> */}
         </React.Fragment>
       )}
     </BackgroundColorContext.Consumer>
