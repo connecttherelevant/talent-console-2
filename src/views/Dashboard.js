@@ -37,15 +37,17 @@ import {
   chartExample2,
   chart1_2_options,
 } from "variables/charts.js";
-import { getProfileViews } from "actions/dashbaordAction";
+import { getProfileViews, getFavCount } from "actions/dashbaordAction";
 import { useAlert } from "react-alert";
+
 function Dashboard(props) {
   const alert = useAlert();
   const dispatch = useDispatch();
   let dashboardData = useSelector((state) => state.dashboardData);
-  const { profileData } = dashboardData;
+  const { profileData, favData } = dashboardData;
   const [profileChartData, setProfileChartData] = useState(null);
-  const genRateChartData = (incoming) => {
+  const [favChartData, setFavChartData] = useState(null);
+  const genRateChartData = (incoming, flag) => {
     return {
       data: (canvas) => {
         let ctx = canvas.getContext("2d");
@@ -60,7 +62,7 @@ function Dashboard(props) {
           labels: incoming?.xAxis ?? [],
           datasets: [
             {
-              label: "Views",
+              label: flag ? "Favorite Count" : "Views",
               fill: true,
               backgroundColor: gradientStroke,
               borderColor: "#1f8ef1",
@@ -82,24 +84,36 @@ function Dashboard(props) {
     };
   };
   const [bigChartData, setbigChartData] = React.useState("m");
+  const [bigChartDataFav, setbigChartDataFav] = React.useState("m");
 
   const setBgChartData = (name) => {
     setbigChartData(name);
   };
 
-  useEffect(() => {
-    dispatch(getProfileViews({ dateFilter: bigChartData, userId: null }))
-      .then((resp) => {})
-      .catch((err) => {
-        alert.error(err.message);
-      });
-  }, [bigChartData]);
-
+  // useEffect(() => {
+  //   dispatch(getProfileViews({ dateFilter: bigChartData, userId: null }))
+  //     .then((resp) => {})
+  //     .catch((err) => {
+  //       alert.error(err.message);
+  //     });
+  // }, [bigChartData]);
+  // useEffect(() => {
+  //   dispatch(getFavCount({ dateFilter: bigChartDataFav, userId: null }))
+  //     .then((resp) => {})
+  //     .catch((err) => {
+  //       alert.error(err.message);
+  //     });
+  // }, [bigChartDataFav]);
   useEffect(() => {
     let chartData = genRateChartData(profileData);
 
     setProfileChartData(chartData);
   }, [profileData]);
+  useEffect(() => {
+    let chartData = genRateChartData(favData, 1);
+
+    setFavChartData(chartData);
+  }, [favData]);
   let filters = [
     {
       name: "Today",
@@ -133,7 +147,7 @@ function Dashboard(props) {
                   <Row>
                     <Col className="text-left" sm="6">
                       <h5 className="card-category">Profile Views</h5>
-                      <CardTitle tag="h2">Performance</CardTitle>
+                      {/* <CardTitle tag="h2">Performance</CardTitle> */}
                     </Col>
                     <Col sm="6">
                       <ButtonGroup
@@ -180,87 +194,58 @@ function Dashboard(props) {
         ) : (
           ""
         )}
-
-        {/* <Row>
-          <Col xs="12">
-            <Card className="card-chart">
-              <CardHeader>
-                <Row>
-                  <Col className="text-left" sm="6">
-                    <h5 className="card-category">Total Shipments</h5>
-                    <CardTitle tag="h2">Performance</CardTitle>
-                  </Col>
-                  <Col sm="6">
-                    <ButtonGroup
-                      className="btn-group-toggle float-right"
-                      data-toggle="buttons"
-                    >
-                      <Button
-                        tag="label"
-                        className={classNames("btn-simple", {
-                          active: bigChartData === "data1",
-                        })}
-                        color="info"
-                        id="0"
-                        size="sm"
-                        onClick={() => setBgChartData("data1")}
+        {favChartData ? (
+          <Row>
+            <Col xs="12">
+              <Card className="card-chart">
+                <CardHeader>
+                  <Row>
+                    <Col className="text-left" sm="6">
+                      <h5 className="card-category">Favorite Count</h5>
+                      {/* <CardTitle tag="h2">Performance</CardTitle> */}
+                    </Col>
+                    <Col sm="6">
+                      <ButtonGroup
+                        className="btn-group-toggle float-right"
+                        data-toggle="buttons"
                       >
-                        <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                          Accounts
-                        </span>
-                        <span className="d-block d-sm-none">
-                          <i className="tim-icons icon-single-02" />
-                        </span>
-                      </Button>
-                      <Button
-                        color="info"
-                        id="1"
-                        size="sm"
-                        tag="label"
-                        className={classNames("btn-simple", {
-                          active: bigChartData === "data2",
+                        {filters.map((e) => {
+                          return (
+                            <Button
+                              key={e.key}
+                              tag="label"
+                              className={classNames("btn-simple", {
+                                active: bigChartDataFav === e.key,
+                              })}
+                              color="info"
+                              id="0"
+                              size="sm"
+                              onClick={() => setbigChartDataFav(e.key)}
+                            >
+                              <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                                {e.name}
+                              </span>
+                              <span className="d-block d-sm-none">
+                                <i className="tim-icons icon-single-02" />
+                              </span>
+                            </Button>
+                          );
                         })}
-                        onClick={() => setBgChartData("data2")}
-                      >
-                        <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                          Purchases
-                        </span>
-                        <span className="d-block d-sm-none">
-                          <i className="tim-icons icon-gift-2" />
-                        </span>
-                      </Button>
-                      <Button
-                        color="info"
-                        id="2"
-                        size="sm"
-                        tag="label"
-                        className={classNames("btn-simple", {
-                          active: bigChartData === "data3",
-                        })}
-                        onClick={() => setBgChartData("data3")}
-                      >
-                        <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                          Sessions
-                        </span>
-                        <span className="d-block d-sm-none">
-                          <i className="tim-icons icon-tap-02" />
-                        </span>
-                      </Button>
-                    </ButtonGroup>
-                  </Col>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                <div className="chart-area">
-                  <Line
-                    data={chartExample1[bigChartData]}
-                    options={chartExample1.options}
-                  />
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row> */}
+                      </ButtonGroup>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+                  <div className="chart-area">
+                    <Line data={favChartData.data} options={chart1_2_options} />
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        ) : (
+          ""
+        )}
       </div>
     </>
   );

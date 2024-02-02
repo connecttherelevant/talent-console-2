@@ -1,12 +1,13 @@
 import axios from "axios";
 
 import Config from "../Config.js";
-import { GET_PROFILE_VIEWS, GET_FAV_COUNT } from "../Constant";
+import { GET_USER, UPDATE_PROFILE } from "../Constant";
 
-export const getProfileViews = (body) => async (dispatch) => {
+export const getUser = (body) => async (dispatch) => {
   return new Promise(async (resolve, resject) => {
-    const userToken = localStorage.getItem("token");
     try {
+      const userToken = localStorage.getItem("token");
+
       let config = {
         headers: {
           Authorization: userToken,
@@ -14,23 +15,24 @@ export const getProfileViews = (body) => async (dispatch) => {
         },
       };
       dispatch({
-        type: GET_PROFILE_VIEWS + "REQUEST",
+        type: GET_USER + "REQUEST",
       });
       let { data } = await axios.post(
-        `${Config.BASE_URL}${Config.GET_PROFILE_VIWES}`,
-        body,
+        `${Config.BASE_URL}${Config.GET_USER_DATA}${body._id}`,
+        {},
         config
       );
-
       dispatch({
-        type: GET_PROFILE_VIEWS + "SUCCESS",
+        type: GET_USER + "SUCCESS",
         payload: data.data,
       });
-      resolve(data.data);
+      localStorage.setItem("user", JSON.stringify(data.data));
+      resolve(body);
     } catch (error) {
+      console.error(error);
       error.message = error?.response?.data?.message || "Network Issue";
       dispatch({
-        type: GET_PROFILE_VIEWS + "FAILED",
+        type: GET_USER + "FAILED",
         payload: error.message,
       });
 
@@ -39,10 +41,11 @@ export const getProfileViews = (body) => async (dispatch) => {
   });
 };
 
-export const getFavCount = (body) => async (dispatch) => {
+export const updateProfile = (body) => async (dispatch) => {
   return new Promise(async (resolve, resject) => {
-    const userToken = localStorage.getItem("token");
     try {
+      const userToken = localStorage.getItem("token");
+
       let config = {
         headers: {
           Authorization: userToken,
@@ -50,23 +53,24 @@ export const getFavCount = (body) => async (dispatch) => {
         },
       };
       dispatch({
-        type: GET_FAV_COUNT + "REQUEST",
+        type: UPDATE_PROFILE + "REQUEST",
       });
       let { data } = await axios.post(
-        `${Config.BASE_URL}${Config.GET_FAV_COUNT}`,
+        `${Config.BASE_URL}${Config.PROFILE_UPDATE}`,
         body,
         config
       );
-
       dispatch({
-        type: GET_FAV_COUNT + "SUCCESS",
+        type: UPDATE_PROFILE + "SUCCESS",
         payload: data.data,
       });
-      resolve(data.data);
+      localStorage.setItem("user", JSON.stringify(data.data));
+      resolve(body);
     } catch (error) {
+      console.error(error);
       error.message = error?.response?.data?.message || "Network Issue";
       dispatch({
-        type: GET_FAV_COUNT + "FAILED",
+        type: UPDATE_PROFILE + "FAILED",
         payload: error.message,
       });
 

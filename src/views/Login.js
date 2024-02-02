@@ -18,16 +18,17 @@ import { getOtp, verifyOtp } from "actions/loginAction";
 
 const Login = () => {
   const alert = useAlert();
-
-  let loginData = useSelector((state) => state.loginData);
+  const dispatch = useDispatch();
   const navigation = useNavigate();
+  let loginData = useSelector((state) => state.loginData);
+
   useEffect(() => {
     let token = localStorage.getItem("token");
     if (token) {
       navigation(`/admin/`);
     }
   }, [navigation]);
-  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     contact_no: "",
     webOtpCode: "",

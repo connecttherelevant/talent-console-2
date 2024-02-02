@@ -16,6 +16,7 @@
     "react-alert-template-basic": "^1.0.2",
     "react-chartjs-2": "3.3.0",
     "react-dom": ">=16.8.0",
+    "react-image-crop": "^11.0.5",
     "react-notification-alert": "0.0.13",
     "react-redux": "^9.1.0",
     "react-router-dom": "6.11.1",

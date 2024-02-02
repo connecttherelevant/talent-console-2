@@ -1,4 +1,4 @@
-import { GET_OTP, VERIFY_OTP } from "../Constant";
+import { GET_OTP, VERIFY_OTP, GET_USER } from "../Constant";
 const intiialState = {
   contact_no: "",
   loading: false,
@@ -40,6 +40,23 @@ const loginReducer = (state = intiialState, action) => {
         user: action.payload,
       };
     case VERIFY_OTP + "FAILED":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case GET_USER + "REQUEST":
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_USER + "SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,
+      };
+    case GET_USER + "FAILED":
       return {
         ...state,
         loading: false,
