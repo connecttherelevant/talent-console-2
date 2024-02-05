@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { useAlert } from "react-alert";
-import ReactCrop from "react-image-crop";
+
 import "react-image-crop/dist/ReactCrop.css";
 import {
   Button,
@@ -13,22 +13,52 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import "../assets/css/user-profile.css";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+
 import deleteImage from "../assets/img/delete-svgrepo-com 1.svg";
 import { getUser, updateProfile } from "actions/userAction";
 import Config from "../Config";
+import ImageCropper from "components/imageCropper/ImageCropper";
+import { getCategory } from "actions/categoryAction";
 
 function UserProfile() {
+  let tabsData = [
+    "Account Information",
+    "Connect The Relevant",
+    "Official Bio",
+    "Verified Social Connect",
+    "Request Official Press Kit",
+  ];
+  const [imageIndex, setImageIndex] = useState(null);
+  const [picture, setPicture] = useState("");
+  const [carousal1Picture, setCarousal1Picture] = useState("");
+  const [carousal2Picture, setCarousal2Picture] = useState("");
+  const [carousal3Picture, setCarousal3Picture] = useState("");
+  const [carousal4Picture, setCarousal4Picture] = useState("");
+  const [carousal5Picture, setCarousal5Picture] = useState("");
+  const [activeTab, setactiveTab] = useState(tabsData[0]);
+  const [modal, setModal] = useState(false);
+  const [proffessionModal, setProffessionModal] = useState(false);
   const alert = useAlert();
   const dispatch = useDispatch();
   const navigation = useNavigate();
-  let { user, error } = useSelector((state) => state.loginData);
+  let { user, error, loading } = useSelector((state) => state.loginData);
+  let { category } = useSelector((state) => state.categoryData);
   const [currentUser, setcurrentUser] = useState(user ? user : null);
+  const [allCategory, setallCategory] = useState(null);
   useEffect(() => {
-    if (currentUser)
+    if (currentUser && currentUser._id)
       dispatch(getUser({ _id: currentUser._id }))
         .then((resp) => {
-          console.log(resp);
+          dispatch(getCategory())
+            .then((data) => {
+              formateCategoryWithParent(data).then((resp) => {
+                setallCategory(resp);
+              });
+            })
+            .catch((err) => {
+              alert.error(err.message);
+            });
         })
         .catch((err) => {
           alert.error(err.message);
@@ -38,14 +68,7 @@ function UserProfile() {
   useEffect(() => {
     setcurrentUser(user);
   }, [user]);
-  let tabsData = [
-    "Account Information",
-    "Connect The Relevant",
-    "Official Bio",
-    "Verified Social Connect",
-    "Request Official Press Kit",
-  ];
-  const [activeTab, setactiveTab] = useState(tabsData[0]);
+
   const handleActive = (e) => {
     setactiveTab(e);
   };
@@ -107,13 +130,135 @@ function UserProfile() {
     }
   };
   const updateProfileLocal = () => {
-    dispatch(updateProfile(currentUser))
+    let data = { ...currentUser };
+    if (picture) data.picture = picture;
+    if (carousal1Picture) data.carousal1Picture = carousal1Picture;
+    if (carousal2Picture) data.carousal2Picture = carousal2Picture;
+    if (carousal3Picture) data.carousal3Picture = carousal3Picture;
+    if (carousal4Picture) data.carousal4Picture = carousal4Picture;
+    if (carousal5Picture) data.carousal5Picture = carousal5Picture;
+    dispatch(updateProfile(data))
       .then((resp) => {
         alert.success("Profile updated successfully");
       })
       .catch((err) => {
         alert.error(err.message);
       });
+  };
+  const updateAvatar = (imgSrc, id) => {
+    if (id === 0) {
+      setPicture(imgSrc);
+    }
+    if (id === 1) {
+      setCarousal1Picture(imgSrc);
+    }
+    if (id === 2) {
+      setCarousal2Picture(imgSrc);
+    }
+    if (id === 3) {
+      setCarousal3Picture(imgSrc);
+    }
+    if (id === 4) {
+      setCarousal4Picture(imgSrc);
+    }
+    if (id === 5) {
+      setCarousal5Picture(imgSrc);
+    }
+    setImageIndex(null);
+  };
+  const proffessionModalToggle = () => setProffessionModal(!proffessionModal);
+  const toggle = () => {
+    if (modal) {
+      setImageIndex(null);
+    }
+    setModal(!modal);
+  };
+  const formateCategoryWithParent = (array, data) => {
+    return new Promise((resolve, reject) => {
+      array = JSON.parse(JSON.stringify(array));
+      try {
+        let newarray = [];
+        for (let index = 0; index < array.length; index++) {
+          const element = array[index];
+          if (element.title === "Other") continue;
+          if (
+            currentUser.professions &&
+            currentUser.professions.includes(element._id)
+          ) {
+            element.selected = true;
+          } else {
+            element.selected = false;
+          }
+          if (element.parent === null || element.parent === "") {
+            newarray.push(element);
+          } else if (
+            element.parent !== "" &&
+            (data
+              ? element.title.toLowerCase().includes(data.toLowerCase())
+              : true)
+          ) {
+            const tempIndex = newarray.findIndex(
+              (item) => item._id === element.parent
+            );
+            let tempObj = newarray[tempIndex];
+            if (tempObj) {
+              if (tempObj.subcategory) {
+                tempObj.subcategory.push(element);
+              } else {
+                tempObj.subcategory = [element];
+              }
+              newarray[tempIndex] = tempObj;
+            }
+          }
+        }
+        newarray.sort((a, b) => {
+          if (a.title === "Main") {
+            return -1; // 'Main' should come first
+          } else if (b.title === "Main") {
+            return 1; // 'Main' should come before other elements
+          } else if (a.title > b.title) {
+            return 1; // Indicates a should come after b
+          } else if (a.title < b.title) {
+            return -1; // Indicates a should come before b
+          } else {
+            return 0; // Indicates they are equal in terms of sorting
+          }
+        });
+
+        resolve(newarray);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+  const handleCategoryClick = (id, selected, childIndex, parentIndex) => {
+    let copy = JSON.parse(JSON.stringify(allCategory));
+    copy[parentIndex].subcategory[childIndex].selected = !selected;
+    currentUser.professions = currentUser.professions || [];
+    currentUser.professions_info = currentUser.professions_info || [];
+    if (selected) {
+      currentUser.professions = currentUser.professions.filter((e) => e !== id);
+      currentUser.professions_info = currentUser.professions_info.filter(
+        (e) => e._id !== id
+      );
+    } else {
+      currentUser.professions.push(id);
+      currentUser.professions_info.push(
+        copy[parentIndex].subcategory[childIndex]
+      );
+    }
+
+    setallCategory(copy);
+  };
+  const professionsStyleNonSelected = {
+    backgroundColor: "transparent",
+    border: "1px solid #e2e5ec",
+    color: "#6c7293",
+  };
+  const professionsStyleSelected = {
+    backgroundColor: "#2E7DE0",
+    borderColor: "#2E7DE0",
+    color: "#fff",
   };
 
   return (
@@ -151,7 +296,7 @@ function UserProfile() {
               <Row className="content-tab-1">
                 <Col md="6">
                   {/* https://console.connecttherelevant.com/assets/media/images/carousal_empty.png */}
-                  <input
+                  {/* <input
                     type="file"
                     id="pic"
                     hidden
@@ -186,7 +331,7 @@ function UserProfile() {
                     id="carousal5"
                     hidden
                     accept="image/png, image/gif, image/jpeg"
-                  />
+                  /> */}
                   <label htmlFor=" ">Gallery</label>
                   <div className="d-flex " style={{ marginBottom: "7px" }}>
                     <div
@@ -195,7 +340,9 @@ function UserProfile() {
                     >
                       <img
                         src={
-                          currentUser.pic
+                          picture
+                            ? picture
+                            : currentUser.pic
                             ? `${Config.S3_PREFIX}${currentUser.pic}`
                             : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
                         }
@@ -203,7 +350,8 @@ function UserProfile() {
                         width="208px"
                         alt="Main"
                         onClick={() => {
-                          document.getElementById("pic").click();
+                          toggle();
+                          setImageIndex(0);
                         }}
                       />
                     </div>
@@ -216,13 +364,19 @@ function UserProfile() {
                       >
                         <img
                           src={
-                            currentUser.carousal1
+                            carousal1Picture
+                              ? carousal1Picture
+                              : currentUser.carousal1
                               ? `${Config.S3_PREFIX}${currentUser.carousal1}`
                               : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
                           }
                           height="100px"
                           width="100px"
                           alt="Main"
+                          onClick={() => {
+                            toggle();
+                            setImageIndex(1);
+                          }}
                         />
                       </div>
                       <div
@@ -233,13 +387,19 @@ function UserProfile() {
                       >
                         <img
                           src={
-                            currentUser.carousal2
+                            carousal2Picture
+                              ? carousal2Picture
+                              : currentUser.carousal2
                               ? `${Config.S3_PREFIX}${currentUser.carousal2}`
                               : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
                           }
                           height="100px"
                           width="100px"
                           alt="Main"
+                          onClick={() => {
+                            toggle();
+                            setImageIndex(2);
+                          }}
                         />
                       </div>
                     </div>
@@ -251,43 +411,61 @@ function UserProfile() {
                     <div className="">
                       <img
                         src={
-                          currentUser.carousal3
+                          carousal3Picture
+                            ? carousal3Picture
+                            : currentUser.carousal3
                             ? `${Config.S3_PREFIX}${currentUser.carousal3}`
                             : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
                         }
                         height="100px"
                         width="100px"
                         alt="Main"
+                        onClick={() => {
+                          toggle();
+                          setImageIndex(3);
+                        }}
                       />
                     </div>
                     <div className="">
                       <img
                         src={
-                          currentUser.carousal4
+                          carousal4Picture
+                            ? carousal4Picture
+                            : currentUser.carousal4
                             ? `${Config.S3_PREFIX}${currentUser.carousal4}`
                             : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
                         }
                         height="100px"
                         width="100px"
                         alt="Main"
+                        onClick={() => {
+                          toggle();
+                          setImageIndex(4);
+                        }}
                       />
                     </div>
                     <div className="">
                       <img
                         src={
-                          currentUser.carousal5
+                          carousal5Picture
+                            ? carousal5Picture
+                            : currentUser.carousal5
                             ? `${Config.S3_PREFIX}${currentUser.carousal5}`
                             : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
                         }
                         height="100px"
                         width="100px"
                         alt="Main"
+                        onClick={() => {
+                          toggle();
+                          setImageIndex(5);
+                        }}
                       />
                     </div>
                   </div>
-                  <div className="Preview d-flex justify-content-between mt-4">
+                  {/* <div className="Preview d-flex justify-content-between mt-4">
                     <label htmlFor="">Preview</label>
-                  </div>
+                  </div> */}
                 </Col>
                 <Col md="6">
                   <div
@@ -330,6 +508,7 @@ function UserProfile() {
                       }
                       onClick={() => {
                         //todo Open Modal
+                        proffessionModalToggle();
                       }}
                     />
                     {/* professions_info */}
@@ -340,70 +519,73 @@ function UserProfile() {
               ""
             )}
             {activeTab === tabsData[1] ? (
-              <div
-                className="d-flex flex-wrap align-content-center"
-                style={{ padding: "40px 24px" }}
-              >
-                {currentUser.managementConnect.map((e, index) => {
-                  return (
-                    <div className="single-connect-the-relevent d-flex flex-column">
-                      <label htmlFor="label">Label</label>
-                      <input
-                        type="text"
-                        id="label"
-                        maxLength={20}
-                        style={{ color: "#2E7DE0" }}
-                        list="labelOptions"
-                        value={e.label}
-                        name="label"
-                        onChange={(e) => {
-                          handleInputChangeConnectTheRelevent(e, index);
-                        }}
-                      />
-                      <datalist id="labelOptions">
-                        <option value="Shows & Events"></option>
-                        <option value="Recordings"></option>
-                        <option value="Endorsements"></option>
-                        <option value="Social Media Management"></option>
-                        <option value="Public Relations"></option>
-                      </datalist>
-                      <label htmlFor="name">Name</label>
-                      <input
-                        type="text"
-                        id="name"
-                        maxLength={20}
-                        value={e.name}
-                        name="name"
-                        onChange={(e) => {
-                          handleInputChangeConnectTheRelevent(e, index);
-                        }}
-                      />
-                      <label htmlFor="number">Number</label>
-                      <input
-                        type="text"
-                        id="number"
-                        name="number"
-                        maxLength={10}
-                        value={e.number}
-                        onChange={(e) => {
-                          handleInputChangeConnectTheRelevent(e, index);
-                        }}
-                      />
-                      <button>
-                        <img src={deleteImage} alt="" />
-                        <span
-                          onClick={() => {
-                            deleteConnectTheRelevent(index);
+              <div>
+                {" "}
+                <div
+                  className="d-flex flex-wrap align-content-center"
+                  style={{ padding: "40px 24px" }}
+                >
+                  {currentUser.managementConnect.map((e, index) => {
+                    return (
+                      <div className="single-connect-the-relevent d-flex flex-column">
+                        <label htmlFor="label">Label</label>
+                        <input
+                          type="text"
+                          id="label"
+                          maxLength={20}
+                          style={{ color: "#2E7DE0" }}
+                          list="labelOptions"
+                          value={e.label}
+                          name="label"
+                          onChange={(e) => {
+                            handleInputChangeConnectTheRelevent(e, index);
                           }}
-                        >
-                          Delete
-                        </span>
-                      </button>
-                    </div>
-                  );
-                })}
-                <div className="add-new-div d-flex justify-content-center align-content-center w-100">
-                  <button onClick={addNewConnectTheRelevent}>Add New</button>
+                        />
+                        <datalist id="labelOptions">
+                          <option value="Shows & Events"></option>
+                          <option value="Recordings"></option>
+                          <option value="Endorsements"></option>
+                          <option value="Social Media Management"></option>
+                          <option value="Public Relations"></option>
+                        </datalist>
+                        <label htmlFor="name">Name</label>
+                        <input
+                          type="text"
+                          id="name"
+                          maxLength={20}
+                          value={e.name}
+                          name="name"
+                          onChange={(e) => {
+                            handleInputChangeConnectTheRelevent(e, index);
+                          }}
+                        />
+                        <label htmlFor="number">Number</label>
+                        <input
+                          type="text"
+                          id="number"
+                          name="number"
+                          maxLength={10}
+                          value={e.number}
+                          onChange={(e) => {
+                            handleInputChangeConnectTheRelevent(e, index);
+                          }}
+                        />
+                        <button>
+                          <span
+                            onClick={() => {
+                              deleteConnectTheRelevent(index);
+                            }}
+                          >
+                            <img src={deleteImage} alt="" />
+                            Delete
+                          </span>
+                        </button>
+                      </div>
+                    );
+                  })}
+                  <div className="add-new-div d-flex justify-content-center align-content-center w-100">
+                    <button onClick={addNewConnectTheRelevent}>Add New</button>
+                  </div>
                 </div>
               </div>
             ) : (
@@ -481,8 +663,10 @@ function UserProfile() {
                           deleteSocialLinkt(index);
                         }}
                       >
-                        <img src={deleteImage} alt="" />
-                        <span>Delete</span>
+                        <span>
+                          <img src={deleteImage} alt="" />
+                          Delete
+                        </span>
                       </button>
                     </div>
                   );
@@ -524,52 +708,165 @@ function UserProfile() {
             ) : (
               ""
             )}
-            <div className="update-div">
-              <button onClick={updateProfileLocal}>Update</button>
-            </div>
+            {!loading && (
+              <div className="update-div">
+                <button onClick={updateProfileLocal}>Update</button>
+              </div>
+            )}
           </Col>
           <Col md="4">
-            <Card className="card-user">
-              <CardBody>
-                <CardText />
-                <div className="author">
-                  <div className="block block-one" />
-                  <div className="block block-two" />
-                  <div className="block block-three" />
-                  <div className="block block-four" />
-                  <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                    <img
-                      alt="..."
-                      className="avatar"
-                      src={require("assets/img/emilyz.jpg")}
-                    />
-                    <h5 className="title">Mike Andrew</h5>
-                  </a>
-                  <p className="description">Ceo/Co-Founder</p>
+            <div class="mobile-container">
+              <div style={{ height: "350px" }}>
+                <img
+                  src={
+                    picture
+                      ? picture
+                      : currentUser.pic
+                      ? `${Config.S3_PREFIX}${currentUser.pic}`
+                      : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
+                  }
+                  alt=""
+                />
+              </div>
+              <div style={{ textAlign: "left" }}>
+                <h2>{currentUser.name}</h2>
+                <p>
+                  {currentUser.professions_info
+                    ? currentUser.professions_info
+                        .map((e) => e.title)
+                        .toString()
+                        .slice(0, 25)
+                    : ""}{" "}
+                  ...
+                </p>
+                <p>Updated on 3.30pm - 1 June 2023</p>
+              </div>
+              <div>Div 3</div>
+              <div>
+                <h3>Official Bio</h3>
+                <div>
+                  <p> {currentUser.about}</p>
                 </div>
-                <div className="card-description">
-                  Do not be scared of the truth because we need to restart the
-                  human foundation in truth And I love you like Kanye loves
-                  Kanye I love Rick Owens’ bed design but the back is...
+              </div>
+              <div>
+                {" "}
+                <div>
+                  <h3>Verified Social Connect</h3>
+                  
+                    {[1,2,3,].map((e) => {
+                      return (
+                        <img
+                          src="https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
+                    
+                          width={50}
+                          alt=""
+                        />
+                      );
+                    })}
+                 
                 </div>
-              </CardBody>
-              <CardFooter>
-                <div className="button-container">
-                  <Button className="btn-icon btn-round" color="facebook">
-                    <i className="fab fa-facebook" />
-                  </Button>
-                  <Button className="btn-icon btn-round" color="twitter">
-                    <i className="fab fa-twitter" />
-                  </Button>
-                  <Button className="btn-icon btn-round" color="google">
-                    <i className="fab fa-google-plus" />
-                  </Button>
+              </div>
+              <div>
+                <h3>Request Official Press Kit</h3>
+                <div>
+                  <span> Request</span>
                 </div>
-              </CardFooter>
-            </Card>
+              </div>
+            </div>
           </Col>
         </Row>
       </div>
+
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}>Image Update</ModalHeader>
+        <ModalBody>
+          <ImageCropper
+            updateAvatar={updateAvatar}
+            closeModal={toggle}
+            id={imageIndex}
+          />
+        </ModalBody>
+        <ModalFooter>
+          <Button color="secondary" onClick={toggle}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal
+        isOpen={proffessionModal}
+        toggle={proffessionModalToggle}
+        size="xl" // Changed from "modal-xl" to "lg" for large size
+        //
+      >
+        <ModalBody style={{ width: "100%" }}>
+          <div
+            class="kt-form__section kt-form__section--first"
+            style={{
+              height: "  calc(60vh)",
+              overflowY: "scroll",
+              paddingLeft: "20px  ",
+            }}
+          >
+            <input
+              type="text"
+              onChange={(e) => {
+                formateCategoryWithParent(category, e.target.value).then(
+                  (data) => {
+                    setallCategory(data);
+                  }
+                );
+              }}
+              placeholder="Search"
+              style={{
+                width: "500px",
+                border: "0.5px solid #eaeaea",
+                borderRadius: "12px",
+              }}
+            />
+
+            {allCategory &&
+              allCategory.map((item, index) => {
+                return (
+                  <div key={item._id} className="form-group kt-form__group row">
+                    <p>{item.title}</p>
+                    <div>
+                      {item.subcategory &&
+                        item.subcategory.map((sub, i) => {
+                          return (
+                            <button
+                              key={sub._id}
+                              className="m-1"
+                              style={
+                                sub.selected
+                                  ? professionsStyleSelected
+                                  : professionsStyleNonSelected
+                              }
+                              onClick={() => {
+                                handleCategoryClick(
+                                  sub._id,
+                                  sub.selected,
+                                  i,
+                                  index
+                                );
+                              }}
+                            >
+                              {sub.title}
+                            </button>
+                          );
+                        })}
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="secondary" onClick={proffessionModalToggle}>
+            Close
+          </Button>
+        </ModalFooter>
+      </Modal>
     </>
   );
 }

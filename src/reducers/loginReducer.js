@@ -1,4 +1,4 @@
-import { GET_OTP, VERIFY_OTP, GET_USER } from "../Constant";
+import { GET_OTP, VERIFY_OTP, GET_USER, UPDATE_PROFILE } from "../Constant";
 const intiialState = {
   contact_no: "",
   loading: false,
@@ -61,6 +61,21 @@ const loginReducer = (state = intiialState, action) => {
         ...state,
         loading: false,
         error: action.payload,
+      };
+    case UPDATE_PROFILE + "REQUEST":
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_PROFILE + "SUCCESS":
+      return {
+        ...state,
+        loading: false,
+      };
+    case UPDATE_PROFILE + "FAILED":
+      return {
+        ...state,
+        loading: false,
       };
     default:
       return state;

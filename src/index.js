@@ -33,7 +33,7 @@ import { Provider } from "react-redux";
 import Login from "views/Login";
 import { Error404 } from "views/Error404";
 import axios from "axios";
-
+import "./assets/css/user-profile.css";
 // This setup could be inside a React component or hook
 const useAxiosSetup = () => {
   const navigate = useNavigate();
