@@ -80,6 +80,7 @@ const App = () => {
                 }
               />
               <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Login />} />
               <Route path="/rtl/*" element={<RTLLayout />} />
               <Route path="*" element={<Error404 />} />
             </Routes>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { useAlert } from "react-alert";
@@ -14,12 +14,21 @@ import {
   ModalFooter,
 } from "reactstrap";
 import deleteImage from "../assets/img/delete-svgrepo-com 1.svg";
+import facebookIcon from "../assets/img/socialLink/artiste_fb.svg";
+import instagramIcon from "../assets/img/socialLink/artiste_insta.svg";
+import snapchatIcon from "../assets/img/socialLink/artiste_snapchat.svg";
+import xIcon from "../assets/img/socialLink/artiste_x.svg";
+import youtubeIcon from "../assets/img/socialLink/artiste_yt.svg";
+import wikipediaIcon from "../assets/img/socialLink/artiste_wikipedia.svg";
+import website from "../assets/img/socialLink/artiste_web.svg";
 import { getUser, updateProfile } from "actions/userAction";
 import Config from "../Config";
 import ImageCropper from "components/imageCropper/ImageCropper";
 import { getCategory } from "actions/categoryAction";
 
 function UserProfile() {
+  let dateTime = new Date();
+
   let tabsData = [
     "Account Information",
     "Connect The Relevant",
@@ -127,7 +136,8 @@ function UserProfile() {
       setcurrentUser({ ...currentUser, socialLink: oldData });
     }
   };
-  const updateProfileLocal = () => {
+  const updateProfileLocal = (e) => {
+    e.preventDefault();
     let data = { ...currentUser };
     if (picture) data.picture = picture;
     if (carousal1Picture) data.carousal1Picture = carousal1Picture;
@@ -135,6 +145,46 @@ function UserProfile() {
     if (carousal3Picture) data.carousal3Picture = carousal3Picture;
     if (carousal4Picture) data.carousal4Picture = carousal4Picture;
     if (carousal5Picture) data.carousal5Picture = carousal5Picture;
+    // input validation
+
+    for (let index = 0; index < currentUser.managementConnect.length; index++) {
+      const element = currentUser.managementConnect[index];
+      if (!element.label) {
+        setactiveTab(tabsData[1]);
+        checkInViewAndScroll(1);
+        alert.error("Label is required");
+        return;
+      }
+      if (!element.name) {
+        setactiveTab(tabsData[1]);
+        checkInViewAndScroll(1);
+        alert.error("name is required");
+
+        return;
+      }
+      if (!element.number) {
+        setactiveTab(tabsData[1]);
+        checkInViewAndScroll(1);
+        alert.error("number is required");
+        return;
+      }
+    }
+    for (let index = 0; index < currentUser.socialLink.length; index++) {
+      const element = currentUser.socialLink[index];
+      if (!element.label) {
+        setactiveTab(tabsData[3]);
+        checkInViewAndScroll(3);
+        alert.error("Label is required");
+
+        return;
+      }
+      if (!element.url) {
+        setactiveTab(tabsData[3]);
+        checkInViewAndScroll(3);
+        alert.error("Link is required");
+        return;
+      }
+    }
     dispatch(updateProfile(data))
       .then((resp) => {
         alert.success("Profile updated successfully");
@@ -248,6 +298,7 @@ function UserProfile() {
 
     setallCategory(copy);
   };
+
   const professionsStyleNonSelected = {
     backgroundColor: "transparent",
     border: "1px solid #e2e5ec",
@@ -257,6 +308,101 @@ function UserProfile() {
     backgroundColor: "#2E7DE0",
     borderColor: "#2E7DE0",
     color: "#fff",
+  };
+  const getIcon = (label) => {
+    if (label === "Facebook") return facebookIcon;
+    else if (label === "Twitter") return xIcon;
+    else if (label === "Instagram") return instagramIcon;
+    else if (label === "Youtube") return youtubeIcon;
+    else if (label === "Snapchat") return snapchatIcon;
+    else if (label === "Wikipedia") return wikipediaIcon;
+    else {
+      return website;
+    }
+  };
+  const targetRefDiv1 = useRef(null);
+  const targetRefDiv2 = useRef(null);
+  const targetRefDiv3 = useRef(null);
+  const targetRefDiv4 = useRef(null);
+  const targetRefDiv5 = useRef(null);
+
+  const checkInViewAndScroll = (id) => {
+    console.log(id);
+    if (id === 0) {
+      if (targetRefDiv1.current) {
+        const position = targetRefDiv1.current.getBoundingClientRect();
+
+        const inView =
+          position.top >= 0 && position.bottom <= window.innerHeight;
+
+        if (!inView) {
+          // Not in view so scroll to it
+          targetRefDiv1.current.scrollIntoView({ behavior: "smooth" });
+        } else {
+          console.log("Element is in view");
+        }
+      }
+    }
+    if (id === 1) {
+      if (targetRefDiv2.current) {
+        const position = targetRefDiv2.current.getBoundingClientRect();
+
+        const inView =
+          position.top >= 0 && position.bottom <= window.innerHeight;
+
+        if (!inView) {
+          // Not in view so scroll to it
+          targetRefDiv2.current.scrollIntoView({ behavior: "smooth" });
+        } else {
+          console.log("Element is in view");
+        }
+      }
+    }
+    if (id === 2) {
+      if (targetRefDiv3.current) {
+        const position = targetRefDiv3.current.getBoundingClientRect();
+
+        const inView =
+          position.top >= 0 && position.bottom <= window.innerHeight;
+
+        if (!inView) {
+          // Not in view so scroll to it
+          targetRefDiv3.current.scrollIntoView({ behavior: "smooth" });
+        } else {
+          console.log("Element is in view");
+        }
+      }
+    }
+    if (id === 3) {
+      if (targetRefDiv4.current) {
+        const position = targetRefDiv4.current.getBoundingClientRect();
+
+        const inView =
+          position.top >= 0 && position.bottom <= window.innerHeight;
+
+        if (!inView) {
+          // Not in view so scroll to it
+          targetRefDiv4.current.scrollIntoView({ behavior: "smooth" });
+        } else {
+          console.log("Element is in view");
+        }
+      }
+    }
+    if (id === 4) {
+      if (targetRefDiv5.current) {
+        const position = targetRefDiv5.current.getBoundingClientRect();
+
+        const inView =
+          position.top >= 0 && position.bottom <= window.innerHeight;
+
+        if (!inView) {
+          // Not in view so scroll to it
+          targetRefDiv5.current.scrollIntoView({ behavior: "smooth" });
+        } else {
+          console.log("Element is in view");
+        }
+      }
+    }
   };
 
   return (
@@ -275,7 +421,7 @@ function UserProfile() {
             // style={{ }}
           >
             <div className="tabs-items d-flex align-content-center justify-content-between">
-              {tabsData.map((e) => {
+              {tabsData.map((e, index) => {
                 return (
                   <button
                     key={e}
@@ -284,6 +430,7 @@ function UserProfile() {
                     }
                     onClick={() => {
                       handleActive(e);
+                      checkInViewAndScroll(index);
                     }}
                   >
                     {e}
@@ -291,7 +438,8 @@ function UserProfile() {
                 );
               })}
             </div>
-            <div
+            <form
+              id="mainForm"
               style={{
                 height: "90%",
                 overflowY: "scroll",
@@ -299,6 +447,7 @@ function UserProfile() {
                 flexDirection: "column",
                 justifyContent: "space-between",
               }}
+              onSubmit={updateProfileLocal}
             >
               <div
                 className="content-body"
@@ -310,45 +459,8 @@ function UserProfile() {
                 }}
               >
                 {activeTab === tabsData[0] ? (
-                  <Row className="content-tab-1">
+                  <Row className="content-tab-1" style={{ width: "100%" }}>
                     <Col md="6">
-                      {/* https://console.connecttherelevant.com/assets/media/images/carousal_empty.png */}
-                      {/* <input
-                    type="file"
-                    id="pic"
-                    hidden
-                    accept="image/png, image/gif, image/jpeg"
-                  />
-                  <input
-                    type="file"
-                    id="carousal1"
-                    hidden
-                    accept="image/png, image/gif, image/jpeg"
-                  />
-                  <input
-                    type="file"
-                    id="carousal2"
-                    hidden
-                    accept="image/png, image/gif, image/jpeg"
-                  />
-                  <input
-                    type="file"
-                    id="carousal3"
-                    hidden
-                    accept="image/png, image/gif, image/jpeg"
-                  />
-                  <input
-                    type="file"
-                    id="carousal4"
-                    hidden
-                    accept="image/png, image/gif, image/jpeg"
-                  />
-                  <input
-                    type="file"
-                    id="carousal5"
-                    hidden
-                    accept="image/png, image/gif, image/jpeg"
-                  /> */}
                       <label htmlFor=" ">Gallery</label>
                       <div className="d-flex " style={{ marginBottom: "7px" }}>
                         <div
@@ -554,6 +666,7 @@ function UserProfile() {
                               list="labelOptions"
                               value={e.label}
                               name="label"
+                              required
                               onChange={(e) => {
                                 handleInputChangeConnectTheRelevent(e, index);
                               }}
@@ -575,6 +688,7 @@ function UserProfile() {
                               onChange={(e) => {
                                 handleInputChangeConnectTheRelevent(e, index);
                               }}
+                              required
                             />
                             <label htmlFor="number">Number</label>
                             <input
@@ -583,11 +697,12 @@ function UserProfile() {
                               name="number"
                               maxLength={10}
                               value={e.number}
+                              required
                               onChange={(e) => {
                                 handleInputChangeConnectTheRelevent(e, index);
                               }}
                             />
-                            <button>
+                            <button type="button">
                               <span
                                 onClick={() => {
                                   deleteConnectTheRelevent(index);
@@ -601,7 +716,10 @@ function UserProfile() {
                         );
                       })}
                       <div className="add-new-div d-flex justify-content-center align-content-center w-100">
-                        <button onClick={addNewConnectTheRelevent}>
+                        <button
+                          type="button"
+                          onClick={addNewConnectTheRelevent}
+                        >
                           Add New
                         </button>
                       </div>
@@ -656,6 +774,7 @@ function UserProfile() {
                             list="SociallabelOptions"
                             name="label"
                             value={e.label}
+                            required
                             onChange={(e) => {
                               handleInputSocialLink(e, index);
                             }}
@@ -675,12 +794,14 @@ function UserProfile() {
                             id="link"
                             value={e.url}
                             maxLength={100}
+                            required
                             onChange={(e) => {
                               handleInputSocialLink(e, index);
                             }}
                           />
 
                           <button
+                            type="button"
                             onClick={() => {
                               deleteSocialLinkt(index);
                             }}
@@ -697,6 +818,7 @@ function UserProfile() {
                       <button
                         onClick={addNewSocialLink}
                         className="addnewbutton"
+                        type="button"
                       >
                         Add New
                       </button>
@@ -736,14 +858,14 @@ function UserProfile() {
               </div>
               {!loading && (
                 <div className="update-div">
-                  <button onClick={updateProfileLocal}>Update</button>
+                  <button type="submit">Update</button>
                 </div>
               )}
-            </div>
+            </form>
           </Col>
           <Col md="4">
             <div class="mobile-container">
-              <div style={{ height: "350px" }}>
+              <div id="div1" style={{ height: "350px" }} ref={targetRefDiv1}>
                 <img
                   src={
                     picture
@@ -768,7 +890,7 @@ function UserProfile() {
                 </p>
                 <p>Updated on 3.30pm - 1 June 2023</p>
               </div>
-              <div className="ManagermentConnect">
+              <div id="div2" className="ManagermentConnect" ref={targetRefDiv2}>
                 <h3>Connect The Relevant</h3>
                 <ul
                   style={{
@@ -778,26 +900,32 @@ function UserProfile() {
                 >
                   {currentUser.managementConnect.map((m) => {
                     return (
-                      <li
-                        style={{
-                          listStyle: "none",
-                          cursor: "pointer",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          fontSize: "15px",
-                          lineHeight: "19px",
-                          color: "#1A1C3A",
-                          width: "100&",
-                        }}
-                        className="mx-2"
-                      >
-                        {m.label}{" "}
-                      </li>
+                      <>
+                        {" "}
+                        <li
+                          style={{
+                            listStyle: "none",
+                            cursor: "pointer",
+                            fontStyle: "normal",
+                            fontWeight: 500,
+                            fontSize: "15px",
+                            lineHeight: "19px",
+                            color: "#1A1C3A",
+                            width: "100&",
+                          }}
+                          className="mx-2"
+                        >
+                          {m.label}
+
+                          <br />
+                          <p>{m.name}</p>
+                        </li>
+                      </>
                     );
                   })}
                 </ul>
               </div>
-              <div>
+              <div id="div3" ref={targetRefDiv3}>
                 <h3>Official Bio</h3>
                 <div>
                   <p> {currentUser.about}</p>
@@ -805,13 +933,15 @@ function UserProfile() {
               </div>
               <div>
                 {" "}
-                <div>
+                <div id="div4" ref={targetRefDiv4}>
                   <h3>Verified Social Connect</h3>
 
-                  {[1, 2, 3].map((e) => {
+                  {currentUser.socialLink.map((e) => {
                     return (
                       <img
-                        src="https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
+                        className="my-1"
+                        height={"20px"}
+                        src={getIcon(e.label)}
                         width={50}
                         alt=""
                       />
@@ -819,14 +949,17 @@ function UserProfile() {
                   })}
                 </div>
               </div>
-              {currentUser.pressKitEmailId && (
-                <div>
-                  <h3>Request Official Press Kit</h3>
-                  <div>
-                    <span> Request</span>
-                  </div>
-                </div>
-              )}
+
+              <div id="div5" ref={targetRefDiv5}>
+                {currentUser.pressKitEmailId && (
+                  <>
+                    <h3>Request Official Press Kit</h3>
+                    <div>
+                      <span> Request</span>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </Col>
         </Row>
