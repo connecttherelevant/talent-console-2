@@ -6,15 +6,13 @@ import { useAlert } from "react-alert";
 import "react-image-crop/dist/ReactCrop.css";
 import {
   Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardText,
   Row,
   Col,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "reactstrap";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-
 import deleteImage from "../assets/img/delete-svgrepo-com 1.svg";
 import { getUser, updateProfile } from "actions/userAction";
 import Config from "../Config";
@@ -271,7 +269,8 @@ function UserProfile() {
               color: "black",
               backgroundColor: "#FFFFFF",
               borderRadius: "12px",
-              height: "  calc(100vh - 90px)",
+              height: "calc(100vh-80px)",
+              // overflowY: "scroll",
             }}
             // style={{ }}
           >
@@ -292,11 +291,29 @@ function UserProfile() {
                 );
               })}
             </div>
-            {activeTab === tabsData[0] ? (
-              <Row className="content-tab-1">
-                <Col md="6">
-                  {/* https://console.connecttherelevant.com/assets/media/images/carousal_empty.png */}
-                  {/* <input
+            <div
+              style={{
+                height: "90%",
+                overflowY: "scroll",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+            >
+              <div
+                className="content-body"
+                style={{
+                  // overflow-y: scroll;
+                  // height: 700px;
+                  overflowY: "scroll",
+                  height: "610px",
+                }}
+              >
+                {activeTab === tabsData[0] ? (
+                  <Row className="content-tab-1">
+                    <Col md="6">
+                      {/* https://console.connecttherelevant.com/assets/media/images/carousal_empty.png */}
+                      {/* <input
                     type="file"
                     id="pic"
                     hidden
@@ -332,387 +349,397 @@ function UserProfile() {
                     hidden
                     accept="image/png, image/gif, image/jpeg"
                   /> */}
-                  <label htmlFor=" ">Gallery</label>
-                  <div className="d-flex " style={{ marginBottom: "7px" }}>
-                    <div
-                      className="Profile-Image"
-                      style={{ marginRight: " 7px" }}
-                    >
-                      <img
-                        src={
-                          picture
-                            ? picture
-                            : currentUser.pic
-                            ? `${Config.S3_PREFIX}${currentUser.pic}`
-                            : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
-                        }
-                        height="208px"
-                        width="208px"
-                        alt="Main"
-                        onClick={() => {
-                          toggle();
-                          setImageIndex(0);
-                        }}
-                      />
-                    </div>
-                    <div className="d-flex flex-column">
-                      <div
-                        className=""
-                        style={{
-                          marginBottom: "8px",
-                        }}
-                      >
-                        <img
-                          src={
-                            carousal1Picture
-                              ? carousal1Picture
-                              : currentUser.carousal1
-                              ? `${Config.S3_PREFIX}${currentUser.carousal1}`
-                              : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
-                          }
-                          height="100px"
-                          width="100px"
-                          alt="Main"
-                          onClick={() => {
-                            toggle();
-                            setImageIndex(1);
-                          }}
-                        />
+                      <label htmlFor=" ">Gallery</label>
+                      <div className="d-flex " style={{ marginBottom: "7px" }}>
+                        <div
+                          className="Profile-Image"
+                          style={{ marginRight: " 7px" }}
+                        >
+                          <img
+                            src={
+                              picture
+                                ? picture
+                                : currentUser.pic
+                                ? `${Config.S3_PREFIX}${currentUser.pic}`
+                                : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
+                            }
+                            height="208px"
+                            width="208px"
+                            alt="Main"
+                            onClick={() => {
+                              toggle();
+                              setImageIndex(0);
+                            }}
+                          />
+                        </div>
+                        <div className="d-flex flex-column">
+                          <div
+                            className=""
+                            style={{
+                              marginBottom: "8px",
+                            }}
+                          >
+                            <img
+                              src={
+                                carousal1Picture
+                                  ? carousal1Picture
+                                  : currentUser.carousal1
+                                  ? `${Config.S3_PREFIX}${currentUser.carousal1}`
+                                  : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
+                              }
+                              height="100px"
+                              width="100px"
+                              alt="Main"
+                              onClick={() => {
+                                toggle();
+                                setImageIndex(1);
+                              }}
+                            />
+                          </div>
+                          <div
+                            className=""
+                            style={{
+                              marginBottom: "8px",
+                            }}
+                          >
+                            <img
+                              src={
+                                carousal2Picture
+                                  ? carousal2Picture
+                                  : currentUser.carousal2
+                                  ? `${Config.S3_PREFIX}${currentUser.carousal2}`
+                                  : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
+                              }
+                              height="100px"
+                              width="100px"
+                              alt="Main"
+                              onClick={() => {
+                                toggle();
+                                setImageIndex(2);
+                              }}
+                            />
+                          </div>
+                        </div>
                       </div>
                       <div
-                        className=""
-                        style={{
-                          marginBottom: "8px",
-                        }}
+                        className="d-flex justify-content-between bottom-div-image"
+                        style={{ width: "315px" }}
                       >
-                        <img
-                          src={
-                            carousal2Picture
-                              ? carousal2Picture
-                              : currentUser.carousal2
-                              ? `${Config.S3_PREFIX}${currentUser.carousal2}`
-                              : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
-                          }
-                          height="100px"
-                          width="100px"
-                          alt="Main"
-                          onClick={() => {
-                            toggle();
-                            setImageIndex(2);
-                          }}
-                        />
+                        <div className="">
+                          <img
+                            src={
+                              carousal3Picture
+                                ? carousal3Picture
+                                : currentUser.carousal3
+                                ? `${Config.S3_PREFIX}${currentUser.carousal3}`
+                                : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
+                            }
+                            height="100px"
+                            width="100px"
+                            alt="Main"
+                            onClick={() => {
+                              toggle();
+                              setImageIndex(3);
+                            }}
+                          />
+                        </div>
+                        <div className="">
+                          <img
+                            src={
+                              carousal4Picture
+                                ? carousal4Picture
+                                : currentUser.carousal4
+                                ? `${Config.S3_PREFIX}${currentUser.carousal4}`
+                                : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
+                            }
+                            height="100px"
+                            width="100px"
+                            alt="Main"
+                            onClick={() => {
+                              toggle();
+                              setImageIndex(4);
+                            }}
+                          />
+                        </div>
+                        <div className="">
+                          <img
+                            src={
+                              carousal5Picture
+                                ? carousal5Picture
+                                : currentUser.carousal5
+                                ? `${Config.S3_PREFIX}${currentUser.carousal5}`
+                                : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
+                            }
+                            height="100px"
+                            width="100px"
+                            alt="Main"
+                            onClick={() => {
+                              toggle();
+                              setImageIndex(5);
+                            }}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div
-                    className="d-flex justify-content-between bottom-div-image"
-                    style={{ width: "315px" }}
-                  >
-                    <div className="">
-                      <img
-                        src={
-                          carousal3Picture
-                            ? carousal3Picture
-                            : currentUser.carousal3
-                            ? `${Config.S3_PREFIX}${currentUser.carousal3}`
-                            : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
-                        }
-                        height="100px"
-                        width="100px"
-                        alt="Main"
-                        onClick={() => {
-                          toggle();
-                          setImageIndex(3);
-                        }}
-                      />
-                    </div>
-                    <div className="">
-                      <img
-                        src={
-                          carousal4Picture
-                            ? carousal4Picture
-                            : currentUser.carousal4
-                            ? `${Config.S3_PREFIX}${currentUser.carousal4}`
-                            : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
-                        }
-                        height="100px"
-                        width="100px"
-                        alt="Main"
-                        onClick={() => {
-                          toggle();
-                          setImageIndex(4);
-                        }}
-                      />
-                    </div>
-                    <div className="">
-                      <img
-                        src={
-                          carousal5Picture
-                            ? carousal5Picture
-                            : currentUser.carousal5
-                            ? `${Config.S3_PREFIX}${currentUser.carousal5}`
-                            : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
-                        }
-                        height="100px"
-                        width="100px"
-                        alt="Main"
-                        onClick={() => {
-                          toggle();
-                          setImageIndex(5);
-                        }}
-                      />
-                    </div>
-                  </div>
-                  {/* <div className="Preview d-flex justify-content-between mt-4">
+                      {/* <div className="Preview d-flex justify-content-between mt-4">
                     <label htmlFor="">Preview</label>
                   </div> */}
-                </Col>
-                <Col md="6">
-                  <div
-                    className="single-connect-the-relevent d-flex flex-column"
-                    style={{ width: "350px", marginTop: "50px" }}
-                  >
-                    <label htmlFor="name">Name</label>
-                    <input
-                      type="text"
-                      id="name"
-                      maxLength={20}
-                      disabled
-                      value={currentUser.name}
-                    />
-                    <label htmlFor="number">Number</label>
-                    <input
-                      type="text"
-                      id="number"
-                      maxLength={10}
-                      disabled
-                      value={currentUser.contact_no}
-                    />
-                    <label htmlFor="email">Email</label>
-                    <input
-                      type="email"
-                      id="email"
-                      disabled
-                      value={currentUser.email}
-                    />
-                    <label htmlFor="Profession">Profession</label>
-                    <input
-                      type="text"
-                      id="Profession"
-                      value={
-                        currentUser.professions_info
-                          ? currentUser.professions_info
-                              .map((e) => e.title)
-                              .toString()
-                          : ""
-                      }
-                      onClick={() => {
-                        //todo Open Modal
-                        proffessionModalToggle();
-                      }}
-                    />
-                    {/* professions_info */}
-                  </div>
-                </Col>
-              </Row>
-            ) : (
-              ""
-            )}
-            {activeTab === tabsData[1] ? (
-              <div>
-                {" "}
-                <div
-                  className="d-flex flex-wrap align-content-center"
-                  style={{ padding: "40px 24px" }}
-                >
-                  {currentUser.managementConnect.map((e, index) => {
-                    return (
-                      <div className="single-connect-the-relevent d-flex flex-column">
-                        <label htmlFor="label">Label</label>
-                        <input
-                          type="text"
-                          id="label"
-                          maxLength={20}
-                          style={{ color: "#2E7DE0" }}
-                          list="labelOptions"
-                          value={e.label}
-                          name="label"
-                          onChange={(e) => {
-                            handleInputChangeConnectTheRelevent(e, index);
-                          }}
-                        />
-                        <datalist id="labelOptions">
-                          <option value="Shows & Events"></option>
-                          <option value="Recordings"></option>
-                          <option value="Endorsements"></option>
-                          <option value="Social Media Management"></option>
-                          <option value="Public Relations"></option>
-                        </datalist>
+                    </Col>
+                    <Col md="6">
+                      <div
+                        className="single-connect-the-relevent d-flex flex-column"
+                        style={{ width: "350px", marginTop: "50px" }}
+                      >
                         <label htmlFor="name">Name</label>
                         <input
                           type="text"
                           id="name"
                           maxLength={20}
-                          value={e.name}
-                          name="name"
-                          onChange={(e) => {
-                            handleInputChangeConnectTheRelevent(e, index);
-                          }}
+                          disabled
+                          value={currentUser.name}
                         />
                         <label htmlFor="number">Number</label>
                         <input
                           type="text"
                           id="number"
-                          name="number"
                           maxLength={10}
-                          value={e.number}
-                          onChange={(e) => {
-                            handleInputChangeConnectTheRelevent(e, index);
+                          disabled
+                          value={currentUser.contact_no}
+                        />
+                        <label htmlFor="email">Email</label>
+                        <input
+                          type="email"
+                          id="email"
+                          disabled
+                          value={currentUser.email}
+                        />
+                        <label htmlFor="Profession">Profession</label>
+                        <input
+                          type="text"
+                          id="Profession"
+                          value={
+                            currentUser.professions_info
+                              ? currentUser.professions_info
+                                  .map((e) => e.title)
+                                  .toString()
+                              : ""
+                          }
+                          onClick={() => {
+                            //todo Open Modal
+                            proffessionModalToggle();
                           }}
                         />
-                        <button>
-                          <span
-                            onClick={() => {
-                              deleteConnectTheRelevent(index);
-                            }}
-                          >
-                            <img src={deleteImage} alt="" />
-                            Delete
-                          </span>
+                        {/* professions_info */}
+                      </div>
+                    </Col>
+                  </Row>
+                ) : (
+                  ""
+                )}
+                {activeTab === tabsData[1] ? (
+                  <div>
+                    {" "}
+                    <div
+                      className="d-flex flex-wrap align-content-center"
+                      style={{ padding: "40px 24px" }}
+                    >
+                      {currentUser.managementConnect.map((e, index) => {
+                        return (
+                          <div className="single-connect-the-relevent d-flex flex-column">
+                            <label htmlFor="label">Label</label>
+                            <input
+                              type="text"
+                              id="label"
+                              maxLength={20}
+                              style={{ color: "#2E7DE0" }}
+                              list="labelOptions"
+                              value={e.label}
+                              name="label"
+                              onChange={(e) => {
+                                handleInputChangeConnectTheRelevent(e, index);
+                              }}
+                            />
+                            <datalist id="labelOptions">
+                              <option value="Shows & Events"></option>
+                              <option value="Recordings"></option>
+                              <option value="Endorsements"></option>
+                              <option value="Social Media Management"></option>
+                              <option value="Public Relations"></option>
+                            </datalist>
+                            <label htmlFor="name">Name</label>
+                            <input
+                              type="text"
+                              id="name"
+                              maxLength={20}
+                              value={e.name}
+                              name="name"
+                              onChange={(e) => {
+                                handleInputChangeConnectTheRelevent(e, index);
+                              }}
+                            />
+                            <label htmlFor="number">Number</label>
+                            <input
+                              type="text"
+                              id="number"
+                              name="number"
+                              maxLength={10}
+                              value={e.number}
+                              onChange={(e) => {
+                                handleInputChangeConnectTheRelevent(e, index);
+                              }}
+                            />
+                            <button>
+                              <span
+                                onClick={() => {
+                                  deleteConnectTheRelevent(index);
+                                }}
+                              >
+                                <img src={deleteImage} alt="" />
+                                Delete
+                              </span>
+                            </button>
+                          </div>
+                        );
+                      })}
+                      <div className="add-new-div d-flex justify-content-center align-content-center w-100">
+                        <button onClick={addNewConnectTheRelevent}>
+                          Add New
                         </button>
                       </div>
-                    );
-                  })}
-                  <div className="add-new-div d-flex justify-content-center align-content-center w-100">
-                    <button onClick={addNewConnectTheRelevent}>Add New</button>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-            {activeTab === tabsData[2] ? (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "40px 24px",
-                }}
-              >
-                <label htmlFor="bio"> Bio</label>
-                <textarea
-                  name="bio"
-                  id="bio"
-                  cols="30"
-                  rows="10"
-                  value={currentUser.about}
-                  onChange={(e) => {
-                    setcurrentUser({ ...currentUser, about: e.target.value });
-                  }}
-                ></textarea>
-              </div>
-            ) : (
-              ""
-            )}
-            {activeTab === tabsData[3] ? (
-              <div
-                className="d-flex flex-wrap align-content-center"
-                style={{ padding: "40px 24px" }}
-              >
-                {currentUser.socialLink.map((e, index) => {
-                  return (
-                    <div
-                      className="single-connect-the-relevent d-flex flex-column"
-                      style={{ height: "200px" }}
-                    >
-                      <label htmlFor="label">Label</label>
-                      <input
-                        type="text"
-                        id="label"
-                        maxLength={20}
-                        style={{ color: "#2E7DE0" }}
-                        list="SociallabelOptions"
-                        name="label"
-                        value={e.label}
-                        onChange={(e) => {
-                          handleInputSocialLink(e, index);
-                        }}
-                      />
-                      <datalist id="SociallabelOptions">
-                        <option value="Facebook"></option>
-                        <option value="Twitter"></option>
-                        <option value="Instagram"></option>
-                        <option value="Youtube"></option>
-                        <option value="Wikipedia"></option>
-                        <option value="Snapchat"></option>
-                      </datalist>
-                      <label htmlFor="link">Link</label>
-                      <input
-                        type="text"
-                        name="url"
-                        id="link"
-                        value={e.url}
-                        maxLength={100}
-                        onChange={(e) => {
-                          handleInputSocialLink(e, index);
-                        }}
-                      />
+                ) : (
+                  ""
+                )}
+                {activeTab === tabsData[2] ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      padding: "40px 24px",
+                    }}
+                  >
+                    <label htmlFor="bio"> Bio</label>
+                    <textarea
+                      name="bio"
+                      id="bio"
+                      cols="30"
+                      rows="10"
+                      value={currentUser.about}
+                      onChange={(e) => {
+                        setcurrentUser({
+                          ...currentUser,
+                          about: e.target.value,
+                        });
+                      }}
+                    ></textarea>
+                  </div>
+                ) : (
+                  ""
+                )}
+                {activeTab === tabsData[3] ? (
+                  <div
+                    className="d-flex flex-wrap align-content-center"
+                    style={{ padding: "40px 24px" }}
+                  >
+                    {currentUser.socialLink.map((e, index) => {
+                      return (
+                        <div
+                          className="single-connect-the-relevent d-flex flex-column"
+                          style={{ height: "200px" }}
+                        >
+                          <label htmlFor="label">Label</label>
+                          <input
+                            type="text"
+                            id="label"
+                            maxLength={20}
+                            style={{ color: "#2E7DE0" }}
+                            list="SociallabelOptions"
+                            name="label"
+                            value={e.label}
+                            onChange={(e) => {
+                              handleInputSocialLink(e, index);
+                            }}
+                          />
+                          <datalist id="SociallabelOptions">
+                            <option value="Facebook"></option>
+                            <option value="Twitter"></option>
+                            <option value="Instagram"></option>
+                            <option value="Youtube"></option>
+                            <option value="Wikipedia"></option>
+                            <option value="Snapchat"></option>
+                          </datalist>
+                          <label htmlFor="link">Link</label>
+                          <input
+                            type="text"
+                            name="url"
+                            id="link"
+                            value={e.url}
+                            maxLength={100}
+                            onChange={(e) => {
+                              handleInputSocialLink(e, index);
+                            }}
+                          />
 
+                          <button
+                            onClick={() => {
+                              deleteSocialLinkt(index);
+                            }}
+                          >
+                            <span>
+                              <img src={deleteImage} alt="" />
+                              Delete
+                            </span>
+                          </button>
+                        </div>
+                      );
+                    })}
+                    <div className="add-new-div d-flex justify-content-center align-content-center w-100">
                       <button
-                        onClick={() => {
-                          deleteSocialLinkt(index);
-                        }}
+                        onClick={addNewSocialLink}
+                        className="addnewbutton"
                       >
-                        <span>
-                          <img src={deleteImage} alt="" />
-                          Delete
-                        </span>
+                        Add New
                       </button>
                     </div>
-                  );
-                })}
-                <div className="add-new-div d-flex justify-content-center align-content-center w-100">
-                  <button onClick={addNewSocialLink} className="addnewbutton">
-                    Add New
-                  </button>
+                  </div>
+                ) : (
+                  ""
+                )}
+                {activeTab === tabsData[4] ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      padding: "40px 24px",
+                    }}
+                  >
+                    <label htmlFor="presskit">
+                      Email ID to receive Press Kit Requests
+                    </label>
+                    <input
+                      type="email"
+                      maxLength={30}
+                      className="pressKit"
+                      value={currentUser.pressKitEmailId}
+                      onChange={(e) => {
+                        setcurrentUser({
+                          ...currentUser,
+                          pressKitEmailId: e.target.value,
+                        });
+                      }}
+                    />
+                    <label htmlFor="">Note: Description Goes here</label>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+              {!loading && (
+                <div className="update-div">
+                  <button onClick={updateProfileLocal}>Update</button>
                 </div>
-              </div>
-            ) : (
-              ""
-            )}
-            {activeTab === tabsData[4] ? (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "40px 24px",
-                }}
-              >
-                <label htmlFor="presskit">
-                  Email ID to receive Press Kit Requests
-                </label>
-                <input
-                  type="email"
-                  maxLength={30}
-                  className="pressKit"
-                  value={currentUser.pressKitEmailId}
-                  onChange={(e) => {
-                    setcurrentUser({
-                      ...currentUser,
-                      pressKitEmailId: e.target.value,
-                    });
-                  }}
-                />
-                <label htmlFor="">Note: Description Goes here</label>
-              </div>
-            ) : (
-              ""
-            )}
-            {!loading && (
-              <div className="update-div">
-                <button onClick={updateProfileLocal}>Update</button>
-              </div>
-            )}
+              )}
+            </div>
           </Col>
           <Col md="4">
             <div class="mobile-container">
@@ -741,7 +768,35 @@ function UserProfile() {
                 </p>
                 <p>Updated on 3.30pm - 1 June 2023</p>
               </div>
-              <div>Div 3</div>
+              <div className="ManagermentConnect">
+                <h3>Connect The Relevant</h3>
+                <ul
+                  style={{
+                    display: "flex",
+                    overflowX: "scroll",
+                  }}
+                >
+                  {currentUser.managementConnect.map((m) => {
+                    return (
+                      <li
+                        style={{
+                          listStyle: "none",
+                          cursor: "pointer",
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                          fontSize: "15px",
+                          lineHeight: "19px",
+                          color: "#1A1C3A",
+                          width: "100&",
+                        }}
+                        className="mx-2"
+                      >
+                        {m.label}{" "}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
               <div>
                 <h3>Official Bio</h3>
                 <div>
@@ -752,26 +807,26 @@ function UserProfile() {
                 {" "}
                 <div>
                   <h3>Verified Social Connect</h3>
-                  
-                    {[1,2,3,].map((e) => {
-                      return (
-                        <img
-                          src="https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
-                    
-                          width={50}
-                          alt=""
-                        />
-                      );
-                    })}
-                 
+
+                  {[1, 2, 3].map((e) => {
+                    return (
+                      <img
+                        src="https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
+                        width={50}
+                        alt=""
+                      />
+                    );
+                  })}
                 </div>
               </div>
-              <div>
-                <h3>Request Official Press Kit</h3>
+              {currentUser.pressKitEmailId && (
                 <div>
-                  <span> Request</span>
+                  <h3>Request Official Press Kit</h3>
+                  <div>
+                    <span> Request</span>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </Col>
         </Row>

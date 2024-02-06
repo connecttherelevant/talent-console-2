@@ -26,17 +26,12 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardTitle,
   Row,
   Col,
 } from "reactstrap";
 
 // core components
-import {
-  chartExample1,
-  chartExample2,
-  chart1_2_options,
-} from "variables/charts.js";
+import { chart1_2_options } from "variables/charts.js";
 import { getProfileViews, getFavCount } from "actions/dashbaordAction";
 import { useAlert } from "react-alert";
 

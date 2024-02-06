@@ -126,8 +126,9 @@ textarea {
   float: bottom;
   width: 98%;
   border-top: 1px solid #eaeaea;
-  position: absolute;
-  top: 730px;
+  border-bottom: none;
+  /* position: absolute; */
+  /* top: 530px; */
 }
 
 input {
@@ -145,6 +146,8 @@ input {
   padding: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 30px;
+  height: calc(100vh - 90px);
+  overflow-y: scroll;
 }
 
 .mobile-container div {
@@ -153,4 +156,14 @@ input {
   background-color: #f8f8f8;
   border: 1px solid #ddd;
   text-align: center;
+}
+
+h3 {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+
+  color: #2e7de0 !important;
 }
