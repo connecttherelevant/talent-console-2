@@ -29,6 +29,7 @@ import ConnectTheRelevant from "components/UserProfile/ConnectTheRelevant";
 import OfficalBio from "components/UserProfile/OfficalBio";
 import VerifiedSocialConnect from "components/UserProfile/VerifiedSocialConnect";
 import MobileView from "components/UserProfile/MobileView";
+import PressKit from "components/UserProfile/PressKit";
 
 function UserProfile() {
   let dateTime = new Date();
@@ -511,7 +512,7 @@ function UserProfile() {
                   ""
                 )}
                 {activeTab === tabsData[4] ? (
-                  <OfficalBio
+                  <PressKit
                     setcurrentUser={setcurrentUser}
                     currentUser={currentUser}
                   />
