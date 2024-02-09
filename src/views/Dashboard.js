@@ -85,20 +85,22 @@ function Dashboard(props) {
     setbigChartData(name);
   };
 
-  // useEffect(() => {
-  //   dispatch(getProfileViews({ dateFilter: bigChartData, userId: null }))
-  //     .then((resp) => {})
-  //     .catch((err) => {
-  //       alert.error(err.message);
-  //     });
-  // }, [bigChartData]);
-  // useEffect(() => {
-  //   dispatch(getFavCount({ dateFilter: bigChartDataFav, userId: null }))
-  //     .then((resp) => {})
-  //     .catch((err) => {
-  //       alert.error(err.message);
-  //     });
-  // }, [bigChartDataFav]);
+  useEffect(() => {
+    dispatch(getProfileViews({ dateFilter: bigChartData, userId: null }))
+      .then((resp) => {})
+      .catch((err) => {
+        alert.error(err.message);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bigChartData]);
+  useEffect(() => {
+    dispatch(getFavCount({ dateFilter: bigChartDataFav, userId: null }))
+      .then((resp) => {})
+      .catch((err) => {
+        alert.error(err.message);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bigChartDataFav]);
   useEffect(() => {
     let chartData = genRateChartData(profileData);
 

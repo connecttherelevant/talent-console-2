@@ -22,9 +22,13 @@ import youtubeIcon from "../assets/img/socialLink/artiste_yt.svg";
 import wikipediaIcon from "../assets/img/socialLink/artiste_wikipedia.svg";
 import website from "../assets/img/socialLink/artiste_web.svg";
 import { getUser, updateProfile } from "actions/userAction";
-import Config from "../Config";
 import ImageCropper from "components/imageCropper/ImageCropper";
 import { getCategory } from "actions/categoryAction";
+import AccounInformation from "components/UserProfile/AccounInformation";
+import ConnectTheRelevant from "components/UserProfile/ConnectTheRelevant";
+import OfficalBio from "components/UserProfile/OfficalBio";
+import VerifiedSocialConnect from "components/UserProfile/VerifiedSocialConnect";
+import MobileView from "components/UserProfile/MobileView";
 
 function UserProfile() {
   let dateTime = new Date();
@@ -459,399 +463,58 @@ function UserProfile() {
                 }}
               >
                 {activeTab === tabsData[0] ? (
-                  <Row className="content-tab-1" style={{ width: "100%" }}>
-                    <Col md="6">
-                      <label htmlFor=" ">Gallery</label>
-                      <div className="d-flex " style={{ marginBottom: "7px" }}>
-                        <div
-                          className="Profile-Image"
-                          style={{ marginRight: " 7px" }}
-                        >
-                          <img
-                            src={
-                              picture
-                                ? picture
-                                : currentUser.pic
-                                ? `${Config.S3_PREFIX}${currentUser.pic}`
-                                : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
-                            }
-                            height="208px"
-                            width="208px"
-                            alt="Main"
-                            onClick={() => {
-                              toggle();
-                              setImageIndex(0);
-                            }}
-                          />
-                        </div>
-                        <div className="d-flex flex-column">
-                          <div
-                            className=""
-                            style={{
-                              marginBottom: "8px",
-                            }}
-                          >
-                            <img
-                              src={
-                                carousal1Picture
-                                  ? carousal1Picture
-                                  : currentUser.carousal1
-                                  ? `${Config.S3_PREFIX}${currentUser.carousal1}`
-                                  : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
-                              }
-                              height="100px"
-                              width="100px"
-                              alt="Main"
-                              onClick={() => {
-                                toggle();
-                                setImageIndex(1);
-                              }}
-                            />
-                          </div>
-                          <div
-                            className=""
-                            style={{
-                              marginBottom: "8px",
-                            }}
-                          >
-                            <img
-                              src={
-                                carousal2Picture
-                                  ? carousal2Picture
-                                  : currentUser.carousal2
-                                  ? `${Config.S3_PREFIX}${currentUser.carousal2}`
-                                  : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
-                              }
-                              height="100px"
-                              width="100px"
-                              alt="Main"
-                              onClick={() => {
-                                toggle();
-                                setImageIndex(2);
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="d-flex justify-content-between bottom-div-image"
-                        style={{ width: "315px" }}
-                      >
-                        <div className="">
-                          <img
-                            src={
-                              carousal3Picture
-                                ? carousal3Picture
-                                : currentUser.carousal3
-                                ? `${Config.S3_PREFIX}${currentUser.carousal3}`
-                                : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
-                            }
-                            height="100px"
-                            width="100px"
-                            alt="Main"
-                            onClick={() => {
-                              toggle();
-                              setImageIndex(3);
-                            }}
-                          />
-                        </div>
-                        <div className="">
-                          <img
-                            src={
-                              carousal4Picture
-                                ? carousal4Picture
-                                : currentUser.carousal4
-                                ? `${Config.S3_PREFIX}${currentUser.carousal4}`
-                                : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
-                            }
-                            height="100px"
-                            width="100px"
-                            alt="Main"
-                            onClick={() => {
-                              toggle();
-                              setImageIndex(4);
-                            }}
-                          />
-                        </div>
-                        <div className="">
-                          <img
-                            src={
-                              carousal5Picture
-                                ? carousal5Picture
-                                : currentUser.carousal5
-                                ? `${Config.S3_PREFIX}${currentUser.carousal5}`
-                                : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
-                            }
-                            height="100px"
-                            width="100px"
-                            alt="Main"
-                            onClick={() => {
-                              toggle();
-                              setImageIndex(5);
-                            }}
-                          />
-                        </div>
-                      </div>
-                      {/* <div className="Preview d-flex justify-content-between mt-4">
-                    <label htmlFor="">Preview</label>
-                  </div> */}
-                    </Col>
-                    <Col md="6">
-                      <div
-                        className="single-connect-the-relevent d-flex flex-column"
-                        style={{ width: "350px", marginTop: "50px" }}
-                      >
-                        <label htmlFor="name">Name</label>
-                        <input
-                          type="text"
-                          id="name"
-                          maxLength={20}
-                          disabled
-                          value={currentUser.name}
-                        />
-                        <label htmlFor="number">Number</label>
-                        <input
-                          type="text"
-                          id="number"
-                          maxLength={10}
-                          disabled
-                          value={currentUser.contact_no}
-                        />
-                        <label htmlFor="email">Email</label>
-                        <input
-                          type="email"
-                          id="email"
-                          disabled
-                          value={currentUser.email}
-                        />
-                        <label htmlFor="Profession">Profession</label>
-                        <input
-                          type="text"
-                          id="Profession"
-                          value={
-                            currentUser.professions_info
-                              ? currentUser.professions_info
-                                  .map((e) => e.title)
-                                  .toString()
-                              : ""
-                          }
-                          onClick={() => {
-                            //todo Open Modal
-                            proffessionModalToggle();
-                          }}
-                        />
-                        {/* professions_info */}
-                      </div>
-                    </Col>
-                  </Row>
+                  <AccounInformation
+                    picture={picture}
+                    carousal1Picture={carousal1Picture}
+                    carousal2Picture={carousal2Picture}
+                    carousal3Picture={carousal3Picture}
+                    carousal4Picture={carousal4Picture}
+                    carousal5Picture={carousal5Picture}
+                    currentUser={currentUser}
+                    toggle={toggle}
+                    setImageIndex={setImageIndex}
+                    proffessionModalToggle={proffessionModalToggle}
+                  />
                 ) : (
                   ""
                 )}
                 {activeTab === tabsData[1] ? (
-                  <div>
-                    {" "}
-                    <div
-                      className="d-flex flex-wrap align-content-center"
-                      style={{ padding: "40px 24px" }}
-                    >
-                      {currentUser.managementConnect.map((e, index) => {
-                        return (
-                          <div className="single-connect-the-relevent d-flex flex-column">
-                            <label htmlFor="label">Label</label>
-                            <input
-                              type="text"
-                              id="label"
-                              maxLength={20}
-                              style={{ color: "#2E7DE0" }}
-                              list="labelOptions"
-                              value={e.label}
-                              name="label"
-                              required
-                              onChange={(e) => {
-                                handleInputChangeConnectTheRelevent(e, index);
-                              }}
-                            />
-                            <datalist id="labelOptions">
-                              <option value="Shows & Events"></option>
-                              <option value="Recordings"></option>
-                              <option value="Endorsements"></option>
-                              <option value="Social Media Management"></option>
-                              <option value="Public Relations"></option>
-                            </datalist>
-                            <label htmlFor="name">Name</label>
-                            <input
-                              type="text"
-                              id="name"
-                              maxLength={20}
-                              value={e.name}
-                              name="name"
-                              onChange={(e) => {
-                                handleInputChangeConnectTheRelevent(e, index);
-                              }}
-                              required
-                            />
-                            <label htmlFor="number">Number</label>
-                            <input
-                              type="text"
-                              id="number"
-                              name="number"
-                              maxLength={10}
-                              value={e.number}
-                              required
-                              onChange={(e) => {
-                                handleInputChangeConnectTheRelevent(e, index);
-                              }}
-                            />
-                            <button type="button">
-                              <span
-                                onClick={() => {
-                                  deleteConnectTheRelevent(index);
-                                }}
-                              >
-                                <img src={deleteImage} alt="" />
-                                Delete
-                              </span>
-                            </button>
-                          </div>
-                        );
-                      })}
-                      <div className="add-new-div d-flex justify-content-center align-content-center w-100">
-                        <button
-                          type="button"
-                          onClick={addNewConnectTheRelevent}
-                        >
-                          Add New
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                  <ConnectTheRelevant
+                    currentUser={currentUser}
+                    handleInputChangeConnectTheRelevent={
+                      handleInputChangeConnectTheRelevent
+                    }
+                    deleteImage={deleteImage}
+                    deleteConnectTheRelevent={deleteConnectTheRelevent}
+                    addNewConnectTheRelevent={addNewConnectTheRelevent}
+                  />
                 ) : (
                   ""
                 )}
                 {activeTab === tabsData[2] ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      padding: "40px 24px",
-                    }}
-                  >
-                    <label htmlFor="bio"> Bio</label>
-                    <textarea
-                      name="bio"
-                      id="bio"
-                      cols="30"
-                      rows="10"
-                      value={currentUser.about}
-                      onChange={(e) => {
-                        setcurrentUser({
-                          ...currentUser,
-                          about: e.target.value,
-                        });
-                      }}
-                    ></textarea>
-                  </div>
+                  <OfficalBio
+                    setcurrentUser={setcurrentUser}
+                    currentUser={currentUser}
+                  />
                 ) : (
                   ""
                 )}
                 {activeTab === tabsData[3] ? (
-                  <div
-                    className="d-flex flex-wrap align-content-center"
-                    style={{ padding: "40px 24px" }}
-                  >
-                    {currentUser.socialLink.map((e, index) => {
-                      return (
-                        <div
-                          className="single-connect-the-relevent d-flex flex-column"
-                          style={{ height: "200px" }}
-                        >
-                          <label htmlFor="label">Label</label>
-                          <input
-                            type="text"
-                            id="label"
-                            maxLength={20}
-                            style={{ color: "#2E7DE0" }}
-                            list="SociallabelOptions"
-                            name="label"
-                            value={e.label}
-                            required
-                            onChange={(e) => {
-                              handleInputSocialLink(e, index);
-                            }}
-                          />
-                          <datalist id="SociallabelOptions">
-                            <option value="Facebook"></option>
-                            <option value="Twitter"></option>
-                            <option value="Instagram"></option>
-                            <option value="Youtube"></option>
-                            <option value="Wikipedia"></option>
-                            <option value="Snapchat"></option>
-                          </datalist>
-                          <label htmlFor="link">Link</label>
-                          <input
-                            type="text"
-                            name="url"
-                            id="link"
-                            value={e.url}
-                            maxLength={100}
-                            required
-                            onChange={(e) => {
-                              handleInputSocialLink(e, index);
-                            }}
-                          />
-
-                          <button
-                            type="button"
-                            onClick={() => {
-                              deleteSocialLinkt(index);
-                            }}
-                          >
-                            <span>
-                              <img src={deleteImage} alt="" />
-                              Delete
-                            </span>
-                          </button>
-                        </div>
-                      );
-                    })}
-                    <div className="add-new-div d-flex justify-content-center align-content-center w-100">
-                      <button
-                        onClick={addNewSocialLink}
-                        className="addnewbutton"
-                        type="button"
-                      >
-                        Add New
-                      </button>
-                    </div>
-                  </div>
+                  <VerifiedSocialConnect
+                    currentUser={currentUser}
+                    handleInputSocialLink={handleInputSocialLink}
+                    deleteSocialLinkt={deleteSocialLinkt}
+                    deleteImage={deleteImage}
+                    addNewSocialLink={addNewSocialLink}
+                  />
                 ) : (
                   ""
                 )}
                 {activeTab === tabsData[4] ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      padding: "40px 24px",
-                    }}
-                  >
-                    <label htmlFor="presskit">
-                      Email ID to receive Press Kit Requests
-                    </label>
-                    <input
-                      type="email"
-                      maxLength={30}
-                      className="pressKit"
-                      value={currentUser.pressKitEmailId}
-                      onChange={(e) => {
-                        setcurrentUser({
-                          ...currentUser,
-                          pressKitEmailId: e.target.value,
-                        });
-                      }}
-                    />
-                    <label htmlFor="">Note: Description Goes here</label>
-                  </div>
+                  <OfficalBio
+                    setcurrentUser={setcurrentUser}
+                    currentUser={currentUser}
+                  />
                 ) : (
                   ""
                 )}
@@ -863,105 +526,16 @@ function UserProfile() {
               )}
             </form>
           </Col>
-          <Col md="4">
-            <div class="mobile-container">
-              <div id="div1" style={{ height: "350px" }} ref={targetRefDiv1}>
-                <img
-                  src={
-                    picture
-                      ? picture
-                      : currentUser.pic
-                      ? `${Config.S3_PREFIX}${currentUser.pic}`
-                      : "https://console.connecttherelevant.com/assets/media/images/carousal_empty.png"
-                  }
-                  alt=""
-                />
-              </div>
-              <div style={{ textAlign: "left" }}>
-                <h2>{currentUser.name}</h2>
-                <p>
-                  {currentUser.professions_info
-                    ? currentUser.professions_info
-                        .map((e) => e.title)
-                        .toString()
-                        .slice(0, 25)
-                    : ""}{" "}
-                  ...
-                </p>
-                <p>Updated on 3.30pm - 1 June 2023</p>
-              </div>
-              <div id="div2" className="ManagermentConnect" ref={targetRefDiv2}>
-                <h3>Connect The Relevant</h3>
-                <ul
-                  style={{
-                    display: "flex",
-                    overflowX: "scroll",
-                  }}
-                >
-                  {currentUser.managementConnect.map((m) => {
-                    return (
-                      <>
-                        {" "}
-                        <li
-                          style={{
-                            listStyle: "none",
-                            cursor: "pointer",
-                            fontStyle: "normal",
-                            fontWeight: 500,
-                            fontSize: "15px",
-                            lineHeight: "19px",
-                            color: "#1A1C3A",
-                            width: "100&",
-                          }}
-                          className="mx-2"
-                        >
-                          {m.label}
-
-                          <br />
-                          <p>{m.name}</p>
-                        </li>
-                      </>
-                    );
-                  })}
-                </ul>
-              </div>
-              <div id="div3" ref={targetRefDiv3}>
-                <h3>Official Bio</h3>
-                <div>
-                  <p> {currentUser.about}</p>
-                </div>
-              </div>
-              <div>
-                {" "}
-                <div id="div4" ref={targetRefDiv4}>
-                  <h3>Verified Social Connect</h3>
-
-                  {currentUser.socialLink.map((e) => {
-                    return (
-                      <img
-                        className="my-1"
-                        height={"20px"}
-                        src={getIcon(e.label)}
-                        width={50}
-                        alt=""
-                      />
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div id="div5" ref={targetRefDiv5}>
-                {currentUser.pressKitEmailId && (
-                  <>
-                    <h3>Request Official Press Kit</h3>
-                    <div>
-                      <span> Request</span>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          </Col>
+          <MobileView
+            targetRefDiv1={targetRefDiv1}
+            targetRefDiv2={targetRefDiv2}
+            targetRefDiv3={targetRefDiv3}
+            targetRefDiv4={targetRefDiv4}
+            targetRefDiv5={targetRefDiv5}
+            picture={picture}
+            currentUser={currentUser}
+            getIcon={getIcon}
+          />
         </Row>
       </div>
 

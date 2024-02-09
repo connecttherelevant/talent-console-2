@@ -9,4 +9,5 @@ module.exports = Object.freeze({
   GET_FAV_COUNT: "dashboard/graphbyfavourate",
   GET_USER_DATA: "user/userProfile/",
   PROFILE_UPDATE: "profilerequest",
+  GET_USER_NOTIFICATION: "usernotification",
 });

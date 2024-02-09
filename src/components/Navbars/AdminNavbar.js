@@ -13,42 +13,59 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useEffect, useState } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
-
 // reactstrap components
+
 import {
-  Button,
   Collapse,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
-  Input,
-  InputGroup,
   NavbarBrand,
   Navbar,
   NavLink,
   Nav,
   Container,
-  Modal,
   NavbarToggler,
-  ModalHeader,
 } from "reactstrap";
 import { logOut } from "actions/loginAction";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router";
 import Config from "../../Config";
+
+import { getNotification } from "actions/userAction";
+import { useAlert } from "react-alert";
 function AdminNavbar(props) {
+  const logo = "https://console.connecttherelevant.com/assets/favicon.png";
+  const alert = useAlert();
   const navigation = useNavigate();
   const dispatch = useDispatch();
-  let { user } = useSelector((state) => state.loginData);
+  let { user, notification } = useSelector((state) => state.loginData);
+  const [localNotification, setlocalNotification] = useState(null);
   const [collapseOpen, setcollapseOpen] = React.useState(false);
-  const [modalSearch, setmodalSearch] = React.useState(false);
+
   const [color, setcolor] = React.useState("navbar-transparent");
-  React.useEffect(() => {
+  useEffect(() => {
+    dispatch(
+      getNotification({
+        status: 1,
+        to: user._id || "",
+        isFav: false,
+      })
+    )
+      .then((res) => {})
+      .catch((error) => {
+        alert.error(error.message);
+      });
+  }, []);
+  useEffect(() => {
+    setlocalNotification(notification);
+  }, [notification]);
+  useEffect(() => {
     window.addEventListener("resize", updateColor);
     // Specify how to clean up after this effect:
     return function cleanup() {
@@ -72,9 +89,10 @@ function AdminNavbar(props) {
     }
     setcollapseOpen(!collapseOpen);
   };
-  // this function is to open the Search modal
-  const toggleModalSearch = () => {
-    // setmodalSearch(!modalSearch);
+  const patchIsviwed = (_id, index) => {
+    let copy = JSON.parse(JSON.stringify(localNotification));
+    copy[index] = { ...copy[index], isViewed: true };
+    setlocalNotification(copy);
   };
   return (
     <>
@@ -116,36 +134,48 @@ function AdminNavbar(props) {
                   data-toggle="dropdown"
                   nav
                 >
-                  <div className="notification d-none d-lg-block d-xl-block" />
+                  {localNotification &&
+                    localNotification.find((e) => !e.isViewed) && (
+                      <div className="notification d-none d-lg-block d-xl-block" />
+                    )}
                   <i className="tim-icons icon-sound-wave" />
                   <p className="d-lg-none">Notifications</p>
                 </DropdownToggle>
-                <DropdownMenu className="dropdown-navbar" right tag="ul">
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Mike John responded to your email
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      You have 5 more tasks
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Your friend Michael is in town
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Another notification
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Another one
-                    </DropdownItem>
-                  </NavLink>
+                <DropdownMenu
+                  className="dropdown-navbar"
+                  right
+                  tag="ul"
+                  style={{
+                    height: "300px",
+                    overflowY: "scroll",
+                  }}
+                >
+                  {localNotification &&
+                    localNotification.length &&
+                    localNotification.map((e, index) => {
+                      return (
+                        <NavLink tag="li">
+                          <DropdownItem
+                            className="nav-item"
+                            onClick={() => {
+                              patchIsviwed(e._id, index);
+                            }}
+                          >
+                            <img
+                              className="mx-1"
+                              src={e.pic ? `${Config.S3_PREFIX}${e.pic}` : logo}
+                              height={"20px"}
+                              width={"20px"}
+                              alt=""
+                            />
+                            {e.message}{" "}
+                            {!e.isViewed && (
+                              <span style={{ color: "red" }}> *</span>
+                            )}
+                          </DropdownItem>
+                        </NavLink>
+                      );
+                    })}
                 </DropdownMenu>
               </UncontrolledDropdown>
               <UncontrolledDropdown nav>
@@ -197,22 +227,6 @@ function AdminNavbar(props) {
           </Collapse>
         </Container>
       </Navbar>
-      <Modal
-        modalClassName="modal-search"
-        isOpen={modalSearch}
-        toggle={toggleModalSearch}
-      >
-        <ModalHeader>
-          <Input placeholder="SEARCH" type="text" />
-          <button
-            aria-label="Close"
-            className="close"
-            onClick={toggleModalSearch}
-          >
-            <i className="tim-icons icon-simple-remove" />
-          </button>
-        </ModalHeader>
-      </Modal>
     </>
   );
 }

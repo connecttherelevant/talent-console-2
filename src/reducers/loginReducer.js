@@ -1,9 +1,16 @@
-import { GET_OTP, VERIFY_OTP, GET_USER, UPDATE_PROFILE } from "../Constant";
+import {
+  GET_OTP,
+  VERIFY_OTP,
+  GET_USER,
+  UPDATE_PROFILE,
+  GET_USER_NOTIFICATION,
+} from "../Constant";
 const intiialState = {
   contact_no: "",
   loading: false,
   user: null,
   error: null,
+  notification: [],
 };
 let userCheck = localStorage.getItem("user");
 if (userCheck) {
@@ -77,6 +84,24 @@ const loginReducer = (state = intiialState, action) => {
         ...state,
         loading: false,
       };
+    case GET_USER_NOTIFICATION + "REQUEST":
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_USER_NOTIFICATION + "SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        notification: action.payload,
+      };
+    case GET_USER_NOTIFICATION + "FAILED":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
     default:
       return state;
   }
