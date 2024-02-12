@@ -11,6 +11,7 @@ const intiialState = {
   user: null,
   error: null,
   notification: [],
+  profileUpdateOtpVerify: false,
 };
 let userCheck = localStorage.getItem("user");
 if (userCheck) {

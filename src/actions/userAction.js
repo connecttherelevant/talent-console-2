@@ -1,7 +1,13 @@
 import axios from "axios";
 
 import Config from "../Config.js";
-import { GET_USER, UPDATE_PROFILE, GET_USER_NOTIFICATION } from "../Constant";
+import {
+  GET_USER,
+  UPDATE_PROFILE,
+  GET_USER_NOTIFICATION,
+  SEND_PROFILE_VERIFY_OTP,
+  SEND_PROFILE_SENT_OTP,
+} from "../Constant";
 
 export const getUser = (body) => async (dispatch) => {
   return new Promise(async (resolve, resject) => {
@@ -26,6 +32,8 @@ export const getUser = (body) => async (dispatch) => {
         type: GET_USER + "SUCCESS",
         payload: data.data,
       });
+      data.data.contact_no = hideEverySecondChar(data.data.contact_no);
+      data.data.email = hideEverySecondChar(data.data.email);
       localStorage.setItem("user", JSON.stringify(data.data));
       resolve(body);
     } catch (error) {
@@ -115,3 +123,86 @@ export const getNotification = (body) => async (dispatch) => {
     }
   });
 };
+export const sendProfileUpdateOtp = () => async (dispatch) => {
+  return new Promise(async (resolve, resject) => {
+    try {
+      const userToken = localStorage.getItem("token");
+
+      let config = {
+        headers: {
+          Authorization: userToken,
+          "Content-Type": "application/json",
+        },
+      };
+      dispatch({
+        type: SEND_PROFILE_SENT_OTP + "REQUEST",
+      });
+      let { data } = await axios.post(
+        `${Config.BASE_URL}${Config.SEND_PROFILE_SENT_OTP}`,
+        {},
+        config
+      );
+      dispatch({
+        type: SEND_PROFILE_SENT_OTP + "SUCCESS",
+        payload: data.data,
+      });
+      resolve();
+    } catch (error) {
+      console.error(error);
+      error.message = error?.response?.data?.message || "Network Issue";
+      dispatch({
+        type: SEND_PROFILE_SENT_OTP + "FAILED",
+        payload: error.message,
+      });
+
+      resject(error);
+    }
+  });
+};
+export const sendProfileUpdateOtpVerify = (body) => async (dispatch) => {
+  return new Promise(async (resolve, resject) => {
+    try {
+      const userToken = localStorage.getItem("token");
+
+      let config = {
+        headers: {
+          Authorization: userToken,
+          "Content-Type": "application/json",
+        },
+      };
+      dispatch({
+        type: SEND_PROFILE_VERIFY_OTP + "REQUEST",
+      });
+      let { data } = await axios.post(
+        `${Config.BASE_URL}${Config.SEND_PROFILE_VERIFY_OTP}`,
+        body,
+        config
+      );
+      if (data.status === 1) {
+        dispatch({
+          type: SEND_PROFILE_VERIFY_OTP + "SUCCESS",
+          payload: data.data,
+        });
+        resolve();
+      } else {
+        dispatch({
+          type: SEND_PROFILE_VERIFY_OTP + "FAILED",
+          payload: "Invalid Otp",
+        });
+        resject(new Error(`Invalid Otp`));
+      }
+    } catch (error) {
+      console.error(error);
+      error.message = error?.response?.data?.message || "Network Issue";
+      dispatch({
+        type: SEND_PROFILE_VERIFY_OTP + "FAILED",
+        payload: error.message,
+      });
+
+      resject(error);
+    }
+  });
+};
+function hideEverySecondChar(str) {
+  return str;
+}
