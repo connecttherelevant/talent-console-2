@@ -1,0 +1,15 @@
+export const GET_OTP = "GET_OTP";
+export const VERIFY_OTP = "VERIFY_OTP";
+export const ASSIGN_AGE_AND_GENDER = "ASSIGN_AGE_AND_GENDER";
+export const GET_CATEGORY = "GET_CATEGORY";
+export const GET_QUESTION = "GET_QUESTION";
+export const GET_PRODUCTS = "GET_PRODUCTS";
+export const ADD_TO_CART = "ADD_TO_CART";
+export const CHECKOUT = "CHECKOUT";
+export const GET_COUPON = "GET_COUPON";
+export const SET_ANSWERS = "SET_ANSWERS";
+export const GET_PROFILE_VIEWS = "GET_PROFILE_VIEWS";
+export const GET_FAV_COUNT = "GET_FAV_COUNT";
+export const GET_USER = "GET_USER";
+export const UPDATE_PROFILE = "UPDATE_PROFILE";
+export const GET_USER_NOTIFICATION = "GET_USER_NOTIFICATION";
