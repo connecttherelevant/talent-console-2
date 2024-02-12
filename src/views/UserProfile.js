@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 import { useAlert } from "react-alert";
 
 import "react-image-crop/dist/ReactCrop.css";
@@ -53,8 +53,7 @@ function UserProfile() {
   const [proffessionModal, setProffessionModal] = useState(false);
   const alert = useAlert();
   const dispatch = useDispatch();
-  const navigation = useNavigate();
-  let { user, error, loading } = useSelector((state) => state.loginData);
+  let { user, loading } = useSelector((state) => state.loginData);
   let { category } = useSelector((state) => state.categoryData);
   const [currentUser, setcurrentUser] = useState(user ? user : null);
   const [allCategory, setallCategory] = useState(null);
