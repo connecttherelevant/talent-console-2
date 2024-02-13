@@ -16,6 +16,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { ModalProvider } from "./components/ArtistProfileVerify/ModalContext";
 
 import AdminLayout from "layouts/Admin/Admin.js";
 import RTLLayout from "layouts/RTL/RTL.js";
@@ -42,9 +43,9 @@ const useAxiosSetup = () => {
     (response) => response,
     (error) => {
       if (error.response && error.response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        navigate("/login");
+        // navigate("/login");
+        // localStorage.removeItem("token");
+        // localStorage.removeItem("user");
       }
       return Promise.reject(error);
     }
@@ -68,24 +69,27 @@ const App = () => {
       }}
     >
       <Provider store={store}>
-        <ThemeContextWrapper>
-          <BackgroundColorWrapper>
-            <Routes>
-              <Route
-                path="/admin/*"
-                element={
-                  <ProtectedRoute>
-                    <AdminLayout />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Login />} />
-              <Route path="/rtl/*" element={<RTLLayout />} />
-              <Route path="*" element={<Error404 />} />
-            </Routes>
-          </BackgroundColorWrapper>
-        </ThemeContextWrapper>
+        {" "}
+        <ModalProvider>
+          <ThemeContextWrapper>
+            <BackgroundColorWrapper>
+              <Routes>
+                <Route
+                  path="/admin/*"
+                  element={
+                    <ProtectedRoute>
+                      <AdminLayout />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Login />} />
+                <Route path="/rtl/*" element={<RTLLayout />} />
+                <Route path="*" element={<Error404 />} />
+              </Routes>
+            </BackgroundColorWrapper>
+          </ThemeContextWrapper>
+        </ModalProvider>
       </Provider>
     </AlertProvider>
   );

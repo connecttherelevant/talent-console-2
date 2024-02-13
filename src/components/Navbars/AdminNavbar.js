@@ -111,7 +111,7 @@ function AdminNavbar(props) {
               </NavbarToggler>
             </div>
             <NavbarBrand href="#pablo" onClick={(e) => e.preventDefault()}>
-              {props.brandText}
+              {user ? `Welcome, ${user.name}` : props.brandText}
             </NavbarBrand>
           </div>
           <NavbarToggler onClick={toggleCollapse}>
@@ -141,42 +141,46 @@ function AdminNavbar(props) {
                   <i className="tim-icons icon-sound-wave" />
                   <p className="d-lg-none">Notifications</p>
                 </DropdownToggle>
-                <DropdownMenu
-                  className="dropdown-navbar"
-                  right
-                  tag="ul"
-                  style={{
-                    height: "300px",
-                    overflowY: "scroll",
-                  }}
-                >
-                  {localNotification &&
-                    localNotification.length &&
-                    localNotification.map((e, index) => {
-                      return (
-                        <NavLink tag="li">
-                          <DropdownItem
-                            className="nav-item"
-                            onClick={() => {
-                              patchIsviwed(e._id, index);
-                            }}
-                          >
-                            <img
-                              className="mx-1"
-                              src={e.pic ? `${Config.S3_PREFIX}${e.pic}` : logo}
-                              height={"20px"}
-                              width={"20px"}
-                              alt=""
-                            />
-                            {e.message}{" "}
-                            {!e.isViewed && (
-                              <span style={{ color: "red" }}> *</span>
-                            )}
-                          </DropdownItem>
-                        </NavLink>
-                      );
-                    })}
-                </DropdownMenu>
+                {localNotification && localNotification.length && (
+                  <DropdownMenu
+                    className="dropdown-navbar"
+                    right
+                    tag="ul"
+                    style={{
+                      height: "300px",
+                      overflowY: "scroll",
+                    }}
+                  >
+                    {localNotification &&
+                      localNotification.length &&
+                      localNotification.map((e, index) => {
+                        return (
+                          <NavLink key={e._id} tag="li">
+                            <DropdownItem
+                              className="nav-item"
+                              onClick={() => {
+                                patchIsviwed(e._id, index);
+                              }}
+                            >
+                              <img
+                                className="mx-1"
+                                src={
+                                  e.pic ? `${Config.S3_PREFIX}${e.pic}` : logo
+                                }
+                                height={"20px"}
+                                width={"20px"}
+                                alt=""
+                              />
+                              {e.subject} {e.message}{" "}
+                              {!e.isViewed && (
+                                <span style={{ color: "red" }}> *</span>
+                              )}
+                            </DropdownItem>
+                          </NavLink>
+                        );
+                      })}
+                  </DropdownMenu>
+                )}
               </UncontrolledDropdown>
               <UncontrolledDropdown nav>
                 <DropdownToggle

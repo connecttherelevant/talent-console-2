@@ -12,4 +12,10 @@ module.exports = Object.freeze({
   GET_USER_NOTIFICATION: "usernotification",
   SEND_PROFILE_SENT_OTP: "artiste/profileVerifyOtpSent",
   SEND_PROFILE_VERIFY_OTP: "artiste/profileVerifyOtpVerify",
+  ADD_MANAGER: "artiste/addManager",
+  UPDATE_MANAGER: "artiste/updateManager",
+  DELETE_MANAGER: "artiste/deleteManager",
+  DELETE_SOCIAL_LINK: "artiste/deleteSocialLink",
+  UPDATE_SOCIAL_LINK: "artiste/updateSocialLink",
+  ADD_SOCIAL_LINK: "artiste/addSocialLink",
 });

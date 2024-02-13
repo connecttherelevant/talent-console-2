@@ -21,11 +21,8 @@ import xIcon from "../assets/img/socialLink/artiste_x.svg";
 import youtubeIcon from "../assets/img/socialLink/artiste_yt.svg";
 import wikipediaIcon from "../assets/img/socialLink/artiste_wikipedia.svg";
 import website from "../assets/img/socialLink/artiste_web.svg";
-import {
-  getUser,
-  updateProfile,
-  sendProfileUpdateOtp,
-} from "actions/userAction";
+import { useModal } from "../components/ArtistProfileVerify/ModalContext";
+import { getUser, updateProfile } from "actions/userAction";
 import ImageCropper from "components/imageCropper/ImageCropper";
 import { getCategory } from "actions/categoryAction";
 import AccounInformation from "components/UserProfile/AccounInformation";
@@ -34,9 +31,9 @@ import OfficalBio from "components/UserProfile/OfficalBio";
 import VerifiedSocialConnect from "components/UserProfile/VerifiedSocialConnect";
 import MobileView from "components/UserProfile/MobileView";
 import PressKit from "components/UserProfile/PressKit";
-import { sendProfileUpdateOtpVerify } from "actions/userAction";
 
 function UserProfile() {
+  const { openModal } = useModal();
   let dateTime = new Date();
 
   let tabsData = [
@@ -48,14 +45,13 @@ function UserProfile() {
   ];
   const [imageIndex, setImageIndex] = useState(null);
   const [picture, setPicture] = useState("");
-  const [profileVerificationModal, setProfileVerificationModal] =
-    useState(false);
+
   const [carousal1Picture, setCarousal1Picture] = useState("");
   const [carousal2Picture, setCarousal2Picture] = useState("");
   const [carousal3Picture, setCarousal3Picture] = useState("");
   const [carousal4Picture, setCarousal4Picture] = useState("");
   const [carousal5Picture, setCarousal5Picture] = useState("");
-  const [otp, setotp] = useState(null);
+
   const [activeTab, setactiveTab] = useState(tabsData[0]);
   const [modal, setModal] = useState(false);
   const [proffessionModal, setProffessionModal] = useState(false);
@@ -65,8 +61,7 @@ function UserProfile() {
   let { category } = useSelector((state) =>
     state.categoryData ? state.categoryData : []
   );
-  const [resendOtpToggle, setresendOtpToggle] = useState(true);
-  const [payload, setpayload] = useState(null);
+
   const [currentUser, setcurrentUser] = useState(user ? user : null);
   const [allCategory, setallCategory] = useState(null);
   useEffect(() => {
@@ -376,7 +371,7 @@ function UserProfile() {
       }
     }
   };
-  const sentOtp = (e) => {
+  const sentOtp = async (e) => {
     e.preventDefault();
     let data = { ...currentUser };
     if (picture) data.picture = picture;
@@ -425,41 +420,24 @@ function UserProfile() {
         return;
       }
     }
-    //todo checkOtp
-    dispatch(sendProfileUpdateOtp())
-      .then((resp) => {
-        alert.success("OTP Sent");
-        setProfileVerificationModal(true);
-        setpayload(data);
-      })
-      .catch((err) => {
-        alert.error(err.message);
-      });
+    const result = await openModal();
+
+    if (result) {
+      dispatch(updateProfile(data))
+        .then((resp) => {
+          alert.success("Profile updated successfully");
+          dispatch(getUser({ _id: currentUser._id }))
+            .then((resp) => {})
+            .catch((err) => {
+              alert.error(err.message);
+            });
+        })
+        .catch((err) => {
+          alert.error(err.message);
+        });
+    }
   };
 
-  const verifyOtp = () => {
-    dispatch(sendProfileUpdateOtpVerify({ otpCode: otp }))
-      .then((resp) => {
-        alert.success("OTP Verfy Successful");
-        dispatch(updateProfile(payload))
-          .then((resp) => {
-            setProfileVerificationModal(false);
-            setpayload(null);
-            alert.success("Profile updated successfully");
-            dispatch(getUser({ _id: currentUser._id }))
-              .then((resp) => {})
-              .catch((err) => {
-                alert.error(err.message);
-              });
-          })
-          .catch((err) => {
-            alert.error(err.message);
-          });
-      })
-      .catch((err) => {
-        alert.error(err.message);
-      });
-  };
   return (
     <>
       <div className="content">
@@ -615,7 +593,7 @@ function UserProfile() {
       >
         <ModalBody style={{ width: "100%" }}>
           <div
-            class="kt-form__section kt-form__section--first"
+            className="kt-form__section kt-form__section--first"
             style={{
               height: "  calc(60vh)",
               overflowY: "scroll",
@@ -678,55 +656,6 @@ function UserProfile() {
         <ModalFooter>
           <Button color="secondary" onClick={proffessionModalToggle}>
             Close
-          </Button>
-        </ModalFooter>
-      </Modal>
-      <Modal
-        isOpen={profileVerificationModal}
-        toggle={() => {
-          setProfileVerificationModal(!profileVerificationModal);
-        }}
-      >
-        <ModalHeader
-          toggle={() => {
-            setProfileVerificationModal(!profileVerificationModal);
-          }}
-        >
-          Verify Otp
-          <br />
-          <input
-            type="text"
-            name="otp"
-            className="my-2"
-            placeholder="Enter your otp"
-            style={{
-              width: "200px",
-              border: "0.5px solid #eaeaea",
-              height: "25px",
-              borderRadius: "12px",
-            }}
-            maxLength={4}
-            onChange={(e) => {
-              setotp(e.target.value);
-            }}
-          />
-        </ModalHeader>
-        <ModalBody></ModalBody>
-        <ModalFooter>
-          <Button
-            color="secondary"
-            onClick={() => {
-              setProfileVerificationModal(!profileVerificationModal);
-            }}
-          >
-            Cancel
-          </Button>
-          <Button disabled={resendOtpToggle} color="primary" onClick={() => {}}>
-            Resend Otp
-            
-          </Button>
-          <Button color="primary" onClick={verifyOtp}>
-            Verify
           </Button>
         </ModalFooter>
       </Modal>

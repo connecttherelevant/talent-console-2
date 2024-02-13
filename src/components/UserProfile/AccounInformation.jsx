@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col } from "reactstrap";
 import Config from "../../Config";
+import { hideEverySecondChar } from "utilities";
 const AccounInformation = ({
   picture,
   carousal1Picture,
@@ -167,17 +168,22 @@ const AccounInformation = ({
             id="number"
             maxLength={10}
             disabled
-            value={currentUser.contact_no}
+            value={hideEverySecondChar(currentUser.contact_no?.toString())}
           />
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" disabled value={currentUser.email} />
+          <input
+            type="email"
+            id="email"
+            disabled
+            value={hideEverySecondChar(currentUser.email)}
+          />
           <label htmlFor="Profession">Profession</label>
           <input
             type="text"
             id="Profession"
             value={
               currentUser.professions_info
-                ? currentUser.professions_info.map((e) => e.title).toString()
+                ? currentUser.professions_info.map((e) => e.title).join(", ")
                 : ""
             }
             onClick={() => {

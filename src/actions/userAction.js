@@ -32,8 +32,7 @@ export const getUser = (body) => async (dispatch) => {
         type: GET_USER + "SUCCESS",
         payload: data.data,
       });
-      data.data.contact_no = hideEverySecondChar(data.data.contact_no);
-      data.data.email = hideEverySecondChar(data.data.email);
+ 
       localStorage.setItem("user", JSON.stringify(data.data));
       resolve(body);
     } catch (error) {
@@ -203,6 +202,4 @@ export const sendProfileUpdateOtpVerify = (body) => async (dispatch) => {
     }
   });
 };
-function hideEverySecondChar(str) {
-  return str;
-}
+
