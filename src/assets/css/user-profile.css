@@ -152,6 +152,7 @@ input {
 
   scrollbar-width: none;
   -ms-overflow-style: none;
+  margin-left: -30px;
 }
 
 .mobile-container div {

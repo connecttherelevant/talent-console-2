@@ -420,6 +420,7 @@ function UserProfile() {
               backgroundColor: "#FFFFFF",
               borderRadius: "12px",
               height: "calc(100vh-80px)",
+              left: "-30px",
               // overflowY: "scroll",
             }}
             // style={{ }}
