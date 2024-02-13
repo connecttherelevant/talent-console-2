@@ -42,6 +42,11 @@ export const verifyOtp = (body) => async (dispatch) => {
         type: VERIFY_OTP + "SUCCESS",
         payload: data.data.user,
       });
+      data.data.user.contact_no = hideEverySecondChar(
+        data.data.user.contact_no
+      );
+      data.data.user.email = hideEverySecondChar(data.data.user.email);
+
       localStorage.setItem("user", JSON.stringify(data.data.user));
       localStorage.setItem("token", data.data.accessToken);
       resolve(data.data);
@@ -67,3 +72,6 @@ export const logOut = () => async (dispatch) => {
     }
   });
 };
+function hideEverySecondChar(str) {
+  return str;
+}

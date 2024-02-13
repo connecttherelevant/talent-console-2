@@ -21,7 +21,11 @@ import xIcon from "../assets/img/socialLink/artiste_x.svg";
 import youtubeIcon from "../assets/img/socialLink/artiste_yt.svg";
 import wikipediaIcon from "../assets/img/socialLink/artiste_wikipedia.svg";
 import website from "../assets/img/socialLink/artiste_web.svg";
-import { getUser, updateProfile } from "actions/userAction";
+import {
+  getUser,
+  updateProfile,
+  sendProfileUpdateOtp,
+} from "actions/userAction";
 import ImageCropper from "components/imageCropper/ImageCropper";
 import { getCategory } from "actions/categoryAction";
 import AccounInformation from "components/UserProfile/AccounInformation";
@@ -30,6 +34,7 @@ import OfficalBio from "components/UserProfile/OfficalBio";
 import VerifiedSocialConnect from "components/UserProfile/VerifiedSocialConnect";
 import MobileView from "components/UserProfile/MobileView";
 import PressKit from "components/UserProfile/PressKit";
+import { sendProfileUpdateOtpVerify } from "actions/userAction";
 
 function UserProfile() {
   let dateTime = new Date();
@@ -43,18 +48,25 @@ function UserProfile() {
   ];
   const [imageIndex, setImageIndex] = useState(null);
   const [picture, setPicture] = useState("");
+  const [profileVerificationModal, setProfileVerificationModal] =
+    useState(false);
   const [carousal1Picture, setCarousal1Picture] = useState("");
   const [carousal2Picture, setCarousal2Picture] = useState("");
   const [carousal3Picture, setCarousal3Picture] = useState("");
   const [carousal4Picture, setCarousal4Picture] = useState("");
   const [carousal5Picture, setCarousal5Picture] = useState("");
+  const [otp, setotp] = useState(null);
   const [activeTab, setactiveTab] = useState(tabsData[0]);
   const [modal, setModal] = useState(false);
   const [proffessionModal, setProffessionModal] = useState(false);
   const alert = useAlert();
   const dispatch = useDispatch();
   let { user, loading } = useSelector((state) => state.loginData);
-  let { category } = useSelector((state) => state.categoryData);
+  let { category } = useSelector((state) =>
+    state.categoryData ? state.categoryData : []
+  );
+  const [resendOtpToggle, setresendOtpToggle] = useState(true);
+  const [payload, setpayload] = useState(null);
   const [currentUser, setcurrentUser] = useState(user ? user : null);
   const [allCategory, setallCategory] = useState(null);
   useEffect(() => {
@@ -140,63 +152,7 @@ function UserProfile() {
       setcurrentUser({ ...currentUser, socialLink: oldData });
     }
   };
-  const updateProfileLocal = (e) => {
-    e.preventDefault();
-    let data = { ...currentUser };
-    if (picture) data.picture = picture;
-    if (carousal1Picture) data.carousal1Picture = carousal1Picture;
-    if (carousal2Picture) data.carousal2Picture = carousal2Picture;
-    if (carousal3Picture) data.carousal3Picture = carousal3Picture;
-    if (carousal4Picture) data.carousal4Picture = carousal4Picture;
-    if (carousal5Picture) data.carousal5Picture = carousal5Picture;
-    // input validation
 
-    for (let index = 0; index < currentUser.managementConnect.length; index++) {
-      const element = currentUser.managementConnect[index];
-      if (!element.label) {
-        setactiveTab(tabsData[1]);
-        checkInViewAndScroll(1);
-        alert.error("Label is required");
-        return;
-      }
-      if (!element.name) {
-        setactiveTab(tabsData[1]);
-        checkInViewAndScroll(1);
-        alert.error("name is required");
-
-        return;
-      }
-      if (!element.number) {
-        setactiveTab(tabsData[1]);
-        checkInViewAndScroll(1);
-        alert.error("number is required");
-        return;
-      }
-    }
-    for (let index = 0; index < currentUser.socialLink.length; index++) {
-      const element = currentUser.socialLink[index];
-      if (!element.label) {
-        setactiveTab(tabsData[3]);
-        checkInViewAndScroll(3);
-        alert.error("Label is required");
-
-        return;
-      }
-      if (!element.url) {
-        setactiveTab(tabsData[3]);
-        checkInViewAndScroll(3);
-        alert.error("Link is required");
-        return;
-      }
-    }
-    dispatch(updateProfile(data))
-      .then((resp) => {
-        alert.success("Profile updated successfully");
-      })
-      .catch((err) => {
-        alert.error(err.message);
-      });
-  };
   const updateAvatar = (imgSrc, id) => {
     if (id === 0) {
       setPicture(imgSrc);
@@ -227,6 +183,7 @@ function UserProfile() {
   };
   const formateCategoryWithParent = (array, data) => {
     return new Promise((resolve, reject) => {
+      let copy = JSON.parse(JSON.stringify(array));
       array = JSON.parse(JSON.stringify(array));
       try {
         let newarray = [];
@@ -242,7 +199,10 @@ function UserProfile() {
             element.selected = false;
           }
           if (element.parent === null || element.parent === "") {
-            newarray.push(element);
+            const tempIndex = newarray.findIndex(
+              (item) => item._id === element.parent
+            );
+            if (!tempIndex) newarray.push(element);
           } else if (
             element.parent !== "" &&
             (data
@@ -260,6 +220,14 @@ function UserProfile() {
                 tempObj.subcategory = [element];
               }
               newarray[tempIndex] = tempObj;
+            } else {
+              const futureElement = copy.find(
+                (item) => item._id === element.parent
+              );
+              if (futureElement) {
+                futureElement.subcategory = [element];
+                newarray.push(futureElement);
+              }
             }
           }
         }
@@ -408,7 +376,90 @@ function UserProfile() {
       }
     }
   };
+  const sentOtp = (e) => {
+    e.preventDefault();
+    let data = { ...currentUser };
+    if (picture) data.picture = picture;
+    if (carousal1Picture) data.carousal1Picture = carousal1Picture;
+    if (carousal2Picture) data.carousal2Picture = carousal2Picture;
+    if (carousal3Picture) data.carousal3Picture = carousal3Picture;
+    if (carousal4Picture) data.carousal4Picture = carousal4Picture;
+    if (carousal5Picture) data.carousal5Picture = carousal5Picture;
+    // input validation
 
+    for (let index = 0; index < currentUser.managementConnect.length; index++) {
+      const element = currentUser.managementConnect[index];
+      if (!element.label) {
+        setactiveTab(tabsData[1]);
+        checkInViewAndScroll(1);
+        alert.error("Label is required");
+        return;
+      }
+      if (!element.name) {
+        setactiveTab(tabsData[1]);
+        checkInViewAndScroll(1);
+        alert.error("name is required");
+
+        return;
+      }
+      if (!element.number) {
+        setactiveTab(tabsData[1]);
+        checkInViewAndScroll(1);
+        alert.error("number is required");
+        return;
+      }
+    }
+    for (let index = 0; index < currentUser.socialLink.length; index++) {
+      const element = currentUser.socialLink[index];
+      if (!element.label) {
+        setactiveTab(tabsData[3]);
+        checkInViewAndScroll(3);
+        alert.error("Label is required");
+
+        return;
+      }
+      if (!element.url) {
+        setactiveTab(tabsData[3]);
+        checkInViewAndScroll(3);
+        alert.error("Link is required");
+        return;
+      }
+    }
+    //todo checkOtp
+    dispatch(sendProfileUpdateOtp())
+      .then((resp) => {
+        alert.success("OTP Sent");
+        setProfileVerificationModal(true);
+        setpayload(data);
+      })
+      .catch((err) => {
+        alert.error(err.message);
+      });
+  };
+
+  const verifyOtp = () => {
+    dispatch(sendProfileUpdateOtpVerify({ otpCode: otp }))
+      .then((resp) => {
+        alert.success("OTP Verfy Successful");
+        dispatch(updateProfile(payload))
+          .then((resp) => {
+            setProfileVerificationModal(false);
+            setpayload(null);
+            alert.success("Profile updated successfully");
+            dispatch(getUser({ _id: currentUser._id }))
+              .then((resp) => {})
+              .catch((err) => {
+                alert.error(err.message);
+              });
+          })
+          .catch((err) => {
+            alert.error(err.message);
+          });
+      })
+      .catch((err) => {
+        alert.error(err.message);
+      });
+  };
   return (
     <>
       <div className="content">
@@ -452,7 +503,7 @@ function UserProfile() {
                 flexDirection: "column",
                 justifyContent: "space-between",
               }}
-              onSubmit={updateProfileLocal}
+              onSubmit={sentOtp}
             >
               <div
                 className="content-body"
@@ -627,6 +678,55 @@ function UserProfile() {
         <ModalFooter>
           <Button color="secondary" onClick={proffessionModalToggle}>
             Close
+          </Button>
+        </ModalFooter>
+      </Modal>
+      <Modal
+        isOpen={profileVerificationModal}
+        toggle={() => {
+          setProfileVerificationModal(!profileVerificationModal);
+        }}
+      >
+        <ModalHeader
+          toggle={() => {
+            setProfileVerificationModal(!profileVerificationModal);
+          }}
+        >
+          Verify Otp
+          <br />
+          <input
+            type="text"
+            name="otp"
+            className="my-2"
+            placeholder="Enter your otp"
+            style={{
+              width: "200px",
+              border: "0.5px solid #eaeaea",
+              height: "25px",
+              borderRadius: "12px",
+            }}
+            maxLength={4}
+            onChange={(e) => {
+              setotp(e.target.value);
+            }}
+          />
+        </ModalHeader>
+        <ModalBody></ModalBody>
+        <ModalFooter>
+          <Button
+            color="secondary"
+            onClick={() => {
+              setProfileVerificationModal(!profileVerificationModal);
+            }}
+          >
+            Cancel
+          </Button>
+          <Button disabled={resendOtpToggle} color="primary" onClick={() => {}}>
+            Resend Otp
+            
+          </Button>
+          <Button color="primary" onClick={verifyOtp}>
+            Verify
           </Button>
         </ModalFooter>
       </Modal>

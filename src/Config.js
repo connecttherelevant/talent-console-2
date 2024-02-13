@@ -1,5 +1,5 @@
 module.exports = Object.freeze({
-  BASE_URL: "https://connecttherelevant.com:3301/api/v1/",
+  BASE_URL: "http://localhost:3301/api/v1/",
   S3_PREFIX:
     "https://connecttherelevantstaging.s3.ap-south-1.amazonaws.com/userpic/",
   GET_OTP: "talent/webLoginSentOTp",
@@ -10,4 +10,6 @@ module.exports = Object.freeze({
   GET_USER_DATA: "user/userProfile/",
   PROFILE_UPDATE: "profilerequest",
   GET_USER_NOTIFICATION: "usernotification",
+  SEND_PROFILE_SENT_OTP: "artiste/profileVerifyOtpSent",
+  SEND_PROFILE_VERIFY_OTP: "artiste/profileVerifyOtpVerify",
 });
