@@ -36,6 +36,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router";
 import Config from "../../Config";
+import Logo from "../../assets/img/ctr_full_logo.svg";
 
 import { getNotification } from "actions/userAction";
 import { useAlert } from "react-alert";

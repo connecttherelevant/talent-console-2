@@ -29,6 +29,8 @@ import {
   backgroundColors,
 } from "contexts/BackgroundColorContext";
 
+import connectLogo from "../../assets/img/ctr_full_logo.svg";
+
 var ps;
 
 function Sidebar(props) {
@@ -68,20 +70,24 @@ function Sidebar(props) {
           onClick={props.toggleSidebar}
         >
           <div className="logo-img">
-            <img src={logo.imgSrc} alt="react-logo" />
+          <img
+                src={connectLogo}
+                alt="Connect Logo"
+                
+              />
           </div>
         </a>
       );
-      logoText = (
-        <a
-          href={logo.outterLink}
-          className="simple-text logo-normal"
-          target="_blank"
-          onClick={props.toggleSidebar}
-        >
-          {logo.text}
-        </a>
-      );
+      // logoText = (
+      //   <a
+      //     href={logo.outterLink}
+      //     className="simple-text logo-normal"
+      //     target="_blank"
+      //     onClick={props.toggleSidebar}
+      //   >
+      //     {logo.text}
+      //   </a>
+      // );
     } else {
       logoImg = (
         <Link
@@ -90,19 +96,23 @@ function Sidebar(props) {
           onClick={props.toggleSidebar}
         >
           <div className="logo-img">
-            <img src={logo.imgSrc} alt="react-logo" />
+          <img
+                src={connectLogo}
+                alt="Connect Logo"
+                
+              />
           </div>
         </Link>
       );
-      logoText = (
-        <Link
-          to={logo.innerLink}
-          className="simple-text logo-normal"
-          onClick={props.toggleSidebar}
-        >
-          {logo.text}
-        </Link>
-      );
+      // logoText = (
+      //   <Link
+      //     to={logo.innerLink}
+      //     className="simple-text logo-normal"
+      //     onClick={props.toggleSidebar}
+      //   >
+      //     {logo.text}
+      //   </Link>
+      // );
     }
   }
   return (
@@ -113,9 +123,10 @@ function Sidebar(props) {
             {logoImg !== null || logoText !== null ? (
               <div className="logo">
                 {logoImg}
-                {logoText}
+                {/* {logoText} */}
               </div>
             ) : null}
+          
             <Nav>
               {routes.map((prop, key) => {
                 if (prop.redirect) return null;
