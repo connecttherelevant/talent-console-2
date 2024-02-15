@@ -43,9 +43,9 @@ const useAxiosSetup = () => {
     (response) => response,
     (error) => {
       if (error.response && error.response.status === 401) {
-        // navigate("/login");
-        // localStorage.removeItem("token");
-        // localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/login");
       }
       return Promise.reject(error);
     }
