@@ -28,7 +28,7 @@ const VerifiedSocialConnect = ({
           dispatch(getUser({ _id: user._id }));
         })
         .catch((err) => {
-          alert.error(typeof err.message === String ? err.message : "");
+          alert.error(typeof err.message === "string" ? err.message : "");
         });
   };
   const [editData, seteditData] = useState({ label: "", url: "" });
@@ -53,7 +53,7 @@ const VerifiedSocialConnect = ({
           alert.success("update successfully");
         })
         .catch((err) => {
-          alert.error(typeof err.message === String ? err.message : "");
+          alert.error(typeof err.message === "string" ? err.message : "");
         });
   };
   const [addnewModal, setaddnewModal] = useState(false);
@@ -81,7 +81,7 @@ const VerifiedSocialConnect = ({
           alert.success("added successfully");
         })
         .catch((err) => {
-          alert.error(typeof err.message === String ? err.message : "");
+          alert.error(typeof err.message === "string" ? err.message : "");
         });
   };
   return (

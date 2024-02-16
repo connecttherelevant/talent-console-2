@@ -60,7 +60,7 @@ function AdminNavbar(props) {
     )
       .then((res) => {})
       .catch((error) => {
-        alert.error(typeof error.message === String ? error.message : "");
+        alert.error(typeof error.message === "string" ? error.message : "");
       });
   }, []);
   useEffect(() => {

@@ -53,7 +53,7 @@ const ConnectTheRelevant = ({
           alert.success("added successfully");
         })
         .catch((err) => {
-          alert.error(typeof err.message === String ? err.message : "");
+          alert.error(typeof err.message === "string" ? err.message : "");
         });
   };
   const editCtr = async () => {
@@ -67,7 +67,7 @@ const ConnectTheRelevant = ({
           alert.success("update successfully");
         })
         .catch((err) => {
-          alert.error(typeof err.message === String ? err.message : "");
+          alert.error(typeof err.message === "string" ? err.message : "");
         });
   };
   const deleteCtr = async (id) => {
@@ -80,7 +80,7 @@ const ConnectTheRelevant = ({
           alert.success("Deleted successfully");
         })
         .catch((err) => {
-          alert.error(typeof err.message === String ? err.message : "");
+          alert.error(typeof err.message === "string" ? err.message : "");
         });
   };
   return (

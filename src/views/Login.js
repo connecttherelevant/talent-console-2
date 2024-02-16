@@ -54,7 +54,7 @@ const Login = () => {
           setType(1);
         })
         .catch((err) => {
-          alert.error(typeof err.message === String ? err.message : "");
+          alert.error(typeof err.message === "string" ? err.message : "");
         });
     } else {
       dispatch(verifyOtp(formData))
@@ -64,7 +64,7 @@ const Login = () => {
           navigation("/admin/");
         })
         .catch((err) => {
-          alert.error(typeof err.message === String ? err.message : "");
+          alert.error(typeof err.message === "string" ? err.message : "");
         });
     }
   };
