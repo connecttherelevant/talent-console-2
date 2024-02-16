@@ -1,16 +1,62 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { sendProfileUpdateOtpVerify } from "actions/userAction";
+import {
+  sendProfileUpdateOtpVerify,
+  sendProfileUpdateOtp,
+} from "actions/userAction";
 import { useDispatch } from "react-redux";
 import { useAlert } from "react-alert";
 const VerifyModal = ({ isVisible, closeModal }) => {
+  const resendInterVal = 60;
   const dispacth = useDispatch();
   const [otpDisabled, setotpDisabled] = useState(true);
-  const [timer, setTimer] = useState(60);
   const alert = useAlert();
-  const [initalzyTimer, setinitalzyTimer] = useState(null);
   const [otp, setOtp] = useState("");
+  const [seconds, setSeconds] = useState(resendInterVal);
+  const [isActive, setIsActive] = useState(false);
 
+  useEffect(() => {
+    let interval = null;
+    if (isActive && seconds > 0) {
+      interval = setInterval(() => {
+        setSeconds((seconds) => seconds - 1);
+      }, 1000);
+    } else if (seconds === 0) {
+      clearInterval(interval);
+      // Perform the action when the countdown reaches 0
+      doSomething();
+      // Optionally reset the countdown and stop it
+      // setSeconds(60);
+      // setIsActive(false);
+    }
+    return () => clearInterval(interval);
+  }, [isActive, seconds]);
+
+  const doSomething = () => {
+    setotpDisabled(false);
+  };
+
+  useEffect(() => {
+    if (isVisible) {
+      setIsActive(true);
+    } else {
+      setSeconds(resendInterVal);
+      setotpDisabled(true);
+      setIsActive(false);
+    }
+  }, [isVisible]);
+  const handleResendOtp = () => {
+    dispacth(sendProfileUpdateOtp())
+      .then(() => {
+        alert.success("OTP Resend Successful");
+        setSeconds(resendInterVal);
+        setIsActive(true);
+        setotpDisabled(true);
+      })
+      .catch((err) => {
+        alert.error(err.message);
+      });
+  };
   const verifyOtp = () => {
     dispacth(sendProfileUpdateOtpVerify({ otpCode: otp }))
       .then((resp) => {
@@ -23,24 +69,6 @@ const VerifyModal = ({ isVisible, closeModal }) => {
         alert.error(err.message);
       });
   };
-
-  //   useEffect(() => {
-  //     if (timer > 0) {
-  //       let data = setInterval(() => {
-  //         setinitalzyTimer(data);
-  //         setTimer(timer - 1);
-  //       }, 1000);
-  //     } else {
-  //       setotpDisabled(false);
-  //     }
-
-  //     return () => {
-  //       if (initalzyTimer) {
-  //         clearInterval(initalzyTimer);
-  //       }
-  //       console.log("DIsbales CALLED===== ", isVisible);
-  //     };
-  //   }, [isVisible]);
 
   return (
     <Modal
@@ -84,9 +112,13 @@ const VerifyModal = ({ isVisible, closeModal }) => {
         >
           Cancel
         </Button>
-        {/* <Button disabled={otpDisabled} color="primary" onClick={() => {}}>
-          Resend Otp {timer}
-        </Button> */}
+        <Button
+          disabled={otpDisabled}
+          color="primary"
+          onClick={handleResendOtp}
+        >
+          Resend Otp {seconds > 0 ? seconds : ""}
+        </Button>
         <Button color="primary" onClick={verifyOtp}>
           Verify
         </Button>
