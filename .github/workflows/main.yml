@@ -58,7 +58,7 @@ jobs:
         with:
           status: ${{ job.status }}
           channel: "#app-release"
-          text: "Console deployment successful."
+          text: "Talent Console deployment successful."
           fields: app_name:connect...,version:${{ github.sha }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.WEBHOOK_SLACK }}
@@ -69,7 +69,7 @@ jobs:
         with:
           status: ${{ job.status }}
           channel: "#app-release"
-          text: "Console deployment failed"
+          text: "Talent Console deployment failed"
           fields: app_name:connect...,version:${{ github.sha }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.WEBHOOK_SLACK }}
