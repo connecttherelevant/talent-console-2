@@ -66,7 +66,13 @@ const VerifyModal = ({ isVisible, closeModal }) => {
       })
       .catch((err) => {
         setOtp("");
-        alert.error(typeof err.message === String ? err.message : "");
+        alert.error(
+          typeof err.message === String
+            ? err.message
+            : err.message.otpCode
+            ? err.message.otpCode
+            : "Network Error"
+        );
       });
   };
 
