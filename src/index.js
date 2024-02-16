@@ -20,7 +20,12 @@ import { ModalProvider } from "./components/ArtistProfileVerify/ModalContext";
 
 import AdminLayout from "layouts/Admin/Admin.js";
 import RTLLayout from "layouts/RTL/RTL.js";
-import { transitions, positions, Provider as AlertProvider } from "react-alert";
+import {
+  transitions,
+  positions,
+  Provider as AlertProvider,
+  useAlert,
+} from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 import "assets/scss/black-dashboard-react.scss";
 import "assets/demo/demo.css";
@@ -35,29 +40,10 @@ import Login from "views/Login";
 import { Error404 } from "views/Error404";
 import axios from "axios";
 import "./assets/css/user-profile.css";
+import { AuthWrapper } from "AuthWrapper";
 // This setup could be inside a React component or hook
-const useAxiosSetup = () => {
-  const navigate = useNavigate();
 
-  const interceptor = axios.interceptors.response.use(
-    (response) => response,
-    (error) => {
-      if (error.response && error.response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        navigate("/login");
-      }
-      return Promise.reject(error);
-    }
-  );
-
-  return () => {
-    axios.interceptors.response.eject(interceptor);
-  };
-};
 const App = () => {
-  useAxiosSetup(); // Correctly use the Axios setup within a component
-
   return (
     <AlertProvider
       template={AlertTemplate}
@@ -68,29 +54,31 @@ const App = () => {
         transition: transitions.SCALE,
       }}
     >
-      <Provider store={store}>
-        {" "}
-        <ModalProvider>
-          <ThemeContextWrapper>
-            <BackgroundColorWrapper>
-              <Routes>
-                <Route
-                  path="/admin/*"
-                  element={
-                    <ProtectedRoute>
-                      <AdminLayout />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route path="/login" element={<Login />} />
-                <Route path="/" element={<Login />} />
-                <Route path="/rtl/*" element={<RTLLayout />} />
-                <Route path="*" element={<Error404 />} />
-              </Routes>
-            </BackgroundColorWrapper>
-          </ThemeContextWrapper>
-        </ModalProvider>
-      </Provider>
+      <AuthWrapper>
+        <Provider store={store}>
+          {" "}
+          <ModalProvider>
+            <ThemeContextWrapper>
+              <BackgroundColorWrapper>
+                <Routes>
+                  <Route
+                    path="/admin/*"
+                    element={
+                      <ProtectedRoute>
+                        <AdminLayout />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/" element={<Login />} />
+                  <Route path="/rtl/*" element={<RTLLayout />} />
+                  <Route path="*" element={<Error404 />} />
+                </Routes>
+              </BackgroundColorWrapper>
+            </ThemeContextWrapper>
+          </ModalProvider>
+        </Provider>
+      </AuthWrapper>
     </AlertProvider>
   );
 };

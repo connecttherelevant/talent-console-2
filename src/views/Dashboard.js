@@ -89,7 +89,7 @@ function Dashboard(props) {
     dispatch(getProfileViews({ dateFilter: bigChartData, userId: null }))
       .then((resp) => {})
       .catch((err) => {
-        alert.error(err.message);
+        alert.error(typeof err.message === String ? err.message : "");
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bigChartData]);
@@ -97,7 +97,7 @@ function Dashboard(props) {
     dispatch(getFavCount({ dateFilter: bigChartDataFav, userId: null }))
       .then((resp) => {})
       .catch((err) => {
-        alert.error(err.message);
+        alert.error(typeof err.message === String ? err.message : "");
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bigChartDataFav]);

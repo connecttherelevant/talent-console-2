@@ -75,11 +75,11 @@ function UserProfile() {
               });
             })
             .catch((err) => {
-              alert.error(err.message);
+              alert.error(typeof err.message === String ? err.message : "");
             });
         })
         .catch((err) => {
-          alert.error(err.message);
+          alert.error(typeof err.message === String ? err.message : "");
         });
   }, []);
 
@@ -429,11 +429,11 @@ function UserProfile() {
           dispatch(getUser({ _id: currentUser._id }))
             .then((resp) => {})
             .catch((err) => {
-              alert.error(err.message);
+              alert.error(typeof err.message === String ? err.message : "");
             });
         })
         .catch((err) => {
-          alert.error(err.message);
+          alert.error(typeof err.message === String ? err.message : "");
         });
     }
   };

@@ -54,7 +54,7 @@ const VerifyModal = ({ isVisible, closeModal }) => {
         setotpDisabled(true);
       })
       .catch((err) => {
-        alert.error(err.message);
+        alert.error(typeof err.message === String ? err.message : "");
       });
   };
   const verifyOtp = () => {
@@ -66,7 +66,7 @@ const VerifyModal = ({ isVisible, closeModal }) => {
       })
       .catch((err) => {
         setOtp("");
-        alert.error(err.message);
+        alert.error(typeof err.message === String ? err.message : "");
       });
   };
 
