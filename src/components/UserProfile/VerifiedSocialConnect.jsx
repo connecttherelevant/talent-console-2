@@ -94,7 +94,7 @@ const VerifiedSocialConnect = ({
           <div
             key={e._id}
             className="single-connect-the-relevent d-flex flex-column"
-            style={{ height: "200px" }}
+            
           >
             <label htmlFor="label">Label</label>
             <input
