@@ -121,11 +121,19 @@ const VerifyModal = ({ isVisible, closeModal }) => {
         <Button
           disabled={otpDisabled}
           color="primary"
+          style={{
+            background: "#2e7ce0",
+          }}
           onClick={handleResendOtp}
         >
           Resend Otp {seconds > 0 ? seconds : ""}
         </Button>
-        <Button color="primary" onClick={verifyOtp}>
+        <Button color="primary"
+        
+        style={{
+          background: "#2e7ce0",
+        }}
+        onClick={verifyOtp}>
           Verify
         </Button>
       </ModalFooter>

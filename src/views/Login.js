@@ -78,7 +78,7 @@ const Login = () => {
             borderRadius: "12px",
             backgroundImage: `url(${loginBg})`,
             backgroundRepeat: "no-repeat",
-            backgroundSize: "100% 100%",
+            backgroundSize: "cover",
             display: "flex",
             justifyConten: "center",
             alignItems: "center",
@@ -107,7 +107,7 @@ const Login = () => {
                     width: "500px",
                   }}
                 >
-                  <Label for="name">Contact Number</Label>
+                  <Label for="name">Mobile Number</Label>
                   <Input
                     type="text"
                     name="contact_no"

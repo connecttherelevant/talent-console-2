@@ -9,6 +9,7 @@
 
   .modal-header {
     border-bottom: none;
+    text-align: center !important;
 
     & button {
         position: absolute;
@@ -22,10 +23,12 @@
         color: $black;
         margin-top: 5px;
         margin-bottom: 0;
+        
     }
 
     .modal-title{
       color: $black;
+      text-align: center !important;
     }
 
     i.tim-icons {
@@ -50,9 +53,8 @@
     justify-content: space-between;
 
     button {
-      margin: 0;
-      padding-left: 16px;
-      padding-right: 16px;
+      margin: 10px;
+      
       width: auto;
 
       &.pull-left {
@@ -115,6 +117,7 @@
         .modal-header{
           .modal-title, .title{
             color: rgba($white, 0.9);
+          
           }
         }
         .modal-body{
@@ -146,6 +149,7 @@
   .modal-content{
     .modal-header{
       padding: 24px;
+      
     }
   }
 

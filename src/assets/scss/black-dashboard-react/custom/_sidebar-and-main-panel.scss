@@ -153,22 +153,22 @@
       }
 
       > a{
-        margin: 10px 15px 0;
+        margin: 0 auto;
         border-radius: $btn-round-radius;
         color: $white;
         display: block;
         text-decoration: none;
         position: relative;
-        text-transform: uppercase;
         cursor: pointer;
         font-size: $font-size-xs;
         padding: 10px 8px;
         line-height: $line-height-lg;
+       font-size: 14px;
        
       }
 
       &:first-child > a{
-        margin: 0 15px;
+        margin: 0 auto;
 
       }
 
@@ -252,6 +252,7 @@
       height: auto;
       white-space: nowrap;
       @extend .animation-transition-general;
+      font-weight: 600;
     }
 
     i{
@@ -461,7 +462,7 @@
   }
 
   > .content {
-    padding: 78px 30px 30px 280px;
+    padding: 78px 30px 30px 250px;
     min-height: calc(100vh - 70px);
   }
 

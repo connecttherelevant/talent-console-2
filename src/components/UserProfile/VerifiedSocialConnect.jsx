@@ -94,7 +94,6 @@ const VerifiedSocialConnect = ({
           <div
             key={e._id}
             className="single-connect-the-relevent d-flex flex-column"
-            
           >
             <label htmlFor="label">Label</label>
             <input
@@ -187,12 +186,7 @@ const VerifiedSocialConnect = ({
         </ModalHeader>
         <ModalBody>
           <center>
-            <div
-              className="single-connect-the-relevent d-flex flex-column"
-              style={{
-                height: "150px",
-              }}
-            >
+            <div className="single-connect-the-relevent d-flex flex-column">
               <label htmlFor="label">Label</label>
               <input
                 type="text"
@@ -235,7 +229,12 @@ const VerifiedSocialConnect = ({
           >
             Cancel
           </Button>
-          <Button color="success" onClick={editSocialLinkTT}>
+          <Button color="success" 
+          
+          style={{
+            background: "#2e7ce0",
+          }}
+          onClick={editSocialLinkTT}>
             Update
           </Button>
         </ModalFooter>
@@ -255,12 +254,7 @@ const VerifiedSocialConnect = ({
         </ModalHeader>
         <ModalBody>
           <center>
-            <div
-              className="single-connect-the-relevent d-flex flex-column"
-              style={{
-                height: "150px",
-              }}
-            >
+            <div className="single-connect-the-relevent d-flex flex-column">
               <label htmlFor="label">Label</label>
               <input
                 type="text"
@@ -303,7 +297,13 @@ const VerifiedSocialConnect = ({
           >
             Cancel
           </Button>
-          <Button color="success" onClick={addNewSocialLink}>
+          <Button
+            color="success"
+            style={{
+              background: "#2e7ce0",
+            }}
+            onClick={addNewSocialLink}
+          >
             Add
           </Button>
         </ModalFooter>

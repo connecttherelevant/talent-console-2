@@ -16,7 +16,7 @@ const AccounInformation = ({
 }) => {
   return (
     <Row className="content-tab-1" style={{ width: "100%" }}>
-      <Col md="6">
+      <Col md="6" style={{top: '20px', left: '20px', right: '20px'}}>
         <label htmlFor=" ">Gallery</label>
         <div className="d-flex " style={{ marginBottom: "7px" }}>
           <div className="Profile-Image" style={{ marginRight: " 7px" }}>

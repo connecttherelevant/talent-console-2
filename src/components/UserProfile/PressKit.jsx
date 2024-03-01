@@ -24,7 +24,7 @@ const PressKit = ({ currentUser, setcurrentUser }) => {
             });
           }}
         />
-        <label htmlFor="">Note: Description Goes here</label>
+        <label htmlFor="" style={{fontStyle: "italic"}}>Note: Industry Professionals can Request Your Official Press Kit via email, Please provide valid email id of the person who handles Your Press Kit.</label>
       </div>
     </div>
   );

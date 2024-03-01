@@ -88,7 +88,7 @@ const ConnectTheRelevant = ({
       {" "}
       <div
         className="d-flex flex-wrap align-content-center"
-        style={{ padding: "40px 24px" }}
+        style={{ padding: "20px 0px" }}
       >
         {currentUser &&
           currentUser.managementConnect?.map((e, index) => {
@@ -97,7 +97,7 @@ const ConnectTheRelevant = ({
                 key={index}
                 className="single-connect-the-relevent d-flex flex-column"
               >
-                <label htmlFor="label">Label</label>
+                <label htmlFor="label">Category</label>
                 <input
                   type="text"
                   id="label"
@@ -192,17 +192,16 @@ const ConnectTheRelevant = ({
             setaddnewModal(!addnewModal);
           }}
         >
-          Add
+          <div
+            style={{ fontSize: "18px", color: "#2e7ce0", fontWeight: "600" }}
+          >
+            Add {data.label}
+          </div>
         </ModalHeader>
         <ModalBody>
           <center>
-            <div
-              className="single-connect-the-relevent d-flex flex-column"
-              style={{
-                height: "200px",
-              }}
-            >
-              <label htmlFor="label">Label</label>
+            <div className="single-connect-the-relevent d-flex flex-column">
+              <label htmlFor="label">Category</label>
               <input
                 type="text"
                 id="label"
@@ -250,7 +249,13 @@ const ConnectTheRelevant = ({
           >
             Cancel
           </Button>
-          <Button color="success" onClick={addCtr}>
+          <Button
+            color="success"
+            style={{
+              background: "#2e7ce0",
+            }}
+            onClick={addCtr}
+          >
             Add
           </Button>
         </ModalFooter>
@@ -267,17 +272,16 @@ const ConnectTheRelevant = ({
             seteditnewModal(!editnewModal);
           }}
         >
-          Update
+          <div
+            style={{ fontSize: "18px", color: "#2e7ce0", fontWeight: "600" }}
+          >
+            Update {editData.label}
+          </div>
         </ModalHeader>
         <ModalBody>
           <center>
-            <div
-              className="single-connect-the-relevent d-flex flex-column"
-              style={{
-                height: "200px",
-              }}
-            >
-              <label htmlFor="label">Label</label>
+            <div className="single-connect-the-relevent d-flex flex-column">
+              <label htmlFor="label">Category</label>
               <input
                 type="text"
                 id="label"
@@ -328,7 +332,13 @@ const ConnectTheRelevant = ({
           >
             Cancel
           </Button>
-          <Button color="success" onClick={editCtr}>
+          <Button
+            color="success"
+            style={{
+              background: "#2e7ce0",
+            }}
+            onClick={editCtr}
+          >
             Update
           </Button>
         </ModalFooter>

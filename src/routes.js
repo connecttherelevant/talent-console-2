@@ -22,12 +22,14 @@ import Dashboard from "views/Dashboard.js";
 // import TableList from "views/TableList.js";
 // import Typography from "views/Typography.js";
 import UserProfile from "views/UserProfile.js";
+import dashboardIcon from './assets/img/dashboard_tc.svg'
+import profileIcon from './assets/img/profile_tc.svg'
 var routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
     rtlName: "لوحة القيادة",
-    icon: "tim-icons icon-chart-pie-36",
+    icon: dashboardIcon,
     component: <Dashboard />,
     layout: "/admin",
   },
@@ -59,7 +61,7 @@ var routes = [
     path: "/user-profile",
     name: "User Profile",
     rtlName: "ملف تعريفي للمستخدم",
-    icon: "tim-icons icon-single-02",
+    icon: profileIcon,
     component: <UserProfile />,
     layout: "/admin",
   },

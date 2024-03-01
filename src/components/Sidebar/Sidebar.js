@@ -38,7 +38,7 @@ function Sidebar(props) {
   const sidebarRef = React.useRef(null);
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
-    return location.pathname === routeName ? "active" : "";
+    return location.pathname.includes(routeName);
   };
   React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
@@ -70,11 +70,7 @@ function Sidebar(props) {
           onClick={props.toggleSidebar}
         >
           <div className="logo-img">
-          <img
-                src={connectLogo}
-                alt="Connect Logo"
-                
-              />
+            <img src={connectLogo} alt="Connect Logo" />
           </div>
         </a>
       );
@@ -96,11 +92,7 @@ function Sidebar(props) {
           onClick={props.toggleSidebar}
         >
           <div className="logo-img">
-          <img
-                src={connectLogo}
-                alt="Connect Logo"
-                
-              />
+            <img src={connectLogo} alt="Connect Logo" />
           </div>
         </Link>
       );
@@ -115,6 +107,18 @@ function Sidebar(props) {
       // );
     }
   }
+  let activeStyle = {
+    color: "#2E7DE0 !important",
+    backgroundColor: "#FFFFFF",
+    borderRadius: "8px",
+    paddingTop: "5px",
+    paddingBottom: "5px",
+
+  };
+  let inactiveStyle = {
+    backgroundColor: "#2E7DE0",
+    color: "#FFFFFF ",
+  };
   return (
     <BackgroundColorContext.Consumer>
       {({ color }) => (
@@ -126,24 +130,35 @@ function Sidebar(props) {
                 {/* {logoText} */}
               </div>
             ) : null}
-          
+
             <Nav>
               {routes.map((prop, key) => {
+                // console.log(activeRoute(prop.path));
                 if (prop.redirect) return null;
                 return (
-                  <li
-                    className={
-                      activeRoute(prop.path) + (prop.pro ? " active-pro" : "")
-                    }
-                    key={key}
-                  >
+                  <li key={key}>
                     <NavLink
                       to={prop.layout + prop.path}
-                      className="nav-link"
+                      // className="nav-link"
+
                       onClick={props.toggleSidebar}
                     >
-                      <i className={prop.icon} />
-                      <p>{rtlActive ? prop.rtlName : prop.name}</p>
+                      <div
+                      className="d-flex"
+                        style={
+                          activeRoute(prop.path) ? activeStyle : inactiveStyle
+                        }
+                      >
+                        <img src={prop.icon} alt="" className="mx-2"/>
+                        <p
+                        className="mx-2"
+                          style={{
+                            color: activeRoute(prop.path) ? "#2E7DE0" : "#FFF",
+                          }}
+                        >
+                          {rtlActive ? prop.rtlName : prop.name}
+                        </p>
+                      </div>
                     </NavLink>
                   </li>
                 );
