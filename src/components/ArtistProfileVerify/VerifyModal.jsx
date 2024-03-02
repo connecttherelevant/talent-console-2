@@ -88,7 +88,11 @@ const VerifyModal = ({ isVisible, closeModal }) => {
           closeModal(false);
         }}
       >
-        Verify Otp
+       <div
+            style={{ fontSize: "18px", color: "#2e7ce0", fontWeight: "600", textAlign:"start", }}
+          >
+            Verify OTP
+          </div>
         <br />
         <input
           type="text"
@@ -98,8 +102,9 @@ const VerifyModal = ({ isVisible, closeModal }) => {
           style={{
             width: "200px",
             border: "0.5px solid #eaeaea",
-            height: "25px",
-            borderRadius: "12px",
+            height: "46px",
+            borderRadius: "8px",
+            padding: "10px",
           }}
           value={otp}
           maxLength={4}
@@ -114,6 +119,12 @@ const VerifyModal = ({ isVisible, closeModal }) => {
           color="secondary"
           onClick={() => {
             closeModal(false);
+          }}
+          style={{
+            background: 'none',
+            color: '#979797',
+            border: '1px solid #eaeaea',
+            boxShadow: 'none',
           }}
         >
           Cancel

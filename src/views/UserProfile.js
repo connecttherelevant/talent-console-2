@@ -280,7 +280,7 @@ function UserProfile() {
     if (label === "Facebook") return facebookIcon;
     else if (label === "Twitter") return xIcon;
     else if (label === "Instagram") return instagramIcon;
-    else if (label === "Youtube") return youtubeIcon;
+    else if (label === "YouTube") return youtubeIcon;
     else if (label === "Snapchat") return snapchatIcon;
     else if (label === "Wikipedia") return wikipediaIcon;
     else {

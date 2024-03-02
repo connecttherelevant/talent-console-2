@@ -175,8 +175,10 @@ const ConnectTheRelevant = ({
               </div>
             );
           })}
-        <div className="add-new-div d-flex justify-content-center align-content-center w-100">
-          <button type="button" onClick={addNewCTRToggle}>
+        <div className="add-new-div d-flex justify-content-center align-content-center w-100" style={{paddingTop: '20px'}}>
+          <button type="button" onClick={addNewCTRToggle}
+          
+          >
             Add New
           </button>
         </div>

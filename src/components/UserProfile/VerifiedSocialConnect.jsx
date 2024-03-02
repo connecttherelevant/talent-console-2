@@ -114,11 +114,11 @@ const VerifiedSocialConnect = ({
               <option value="Facebook"></option>
               <option value="Twitter"></option>
               <option value="Instagram"></option>
-              <option value="Youtube"></option>
+              <option value="YouTube"></option>
               <option value="Wikipedia"></option>
               <option value="Snapchat"></option>
             </datalist>
-            <label htmlFor="link">Link</label>
+            <label htmlFor="link" style={{paddingTop:'15px'}}>Link</label>
             <input
               type="text"
               name="url"
@@ -156,13 +156,13 @@ const VerifiedSocialConnect = ({
               >
                 {" "}
                 <img src={editICon} alt="" />
-                <span style={{ color: "#b8bbc6" }}>Edit</span>
+                <span style={{ color: "#b8bbc6", paddingLeft: '5px', }}>Edit</span>
               </button>
             </div>
           </div>
         );
       })}
-      <div className="add-new-div d-flex justify-content-center align-content-center w-100">
+      <div className="add-new-div d-flex justify-content-center align-content-center w-100" style={{paddingTop: '20px'}}>
         <button
           onClick={addNewCTRToggle}
           className="addnewbutton"
@@ -182,7 +182,11 @@ const VerifiedSocialConnect = ({
             seteditnewModal(!editnewModal);
           }}
         >
-          Update
+         <div
+            style={{ fontSize: "18px", color: "#2e7ce0", fontWeight: "600" }}
+          >
+            Update {editData.label}
+          </div>
         </ModalHeader>
         <ModalBody>
           <center>
@@ -203,11 +207,11 @@ const VerifiedSocialConnect = ({
                 <option value="Facebook"></option>
                 <option value="Twitter"></option>
                 <option value="Instagram"></option>
-                <option value="Youtube"></option>
+                <option value="YouTube"></option>
                 <option value="Wikipedia"></option>
                 <option value="Snapchat"></option>
               </datalist>
-              <label htmlFor="link">Link</label>
+              <label htmlFor="link" style={{paddingTop:'15px'}}>Link</label>
               <input
                 type="text"
                 name="url"
@@ -225,6 +229,12 @@ const VerifiedSocialConnect = ({
             color="secondary"
             onClick={() => {
               seteditnewModal(!editnewModal);
+            }}
+            style={{
+              background: 'none',
+              color: '#979797',
+              border: '1px solid #eaeaea',
+              boxShadow: 'none',
             }}
           >
             Cancel
@@ -250,7 +260,11 @@ const VerifiedSocialConnect = ({
             setaddnewModal(!addnewModal);
           }}
         >
-          Add
+         <div
+            style={{ fontSize: "18px", color: "#2e7ce0", fontWeight: "600" }}
+          >
+            Add {data.label}
+          </div>
         </ModalHeader>
         <ModalBody>
           <center>
@@ -271,11 +285,11 @@ const VerifiedSocialConnect = ({
                 <option value="Facebook"></option>
                 <option value="Twitter"></option>
                 <option value="Instagram"></option>
-                <option value="Youtube"></option>
+                <option value="YouTube"></option>
                 <option value="Wikipedia"></option>
                 <option value="Snapchat"></option>
               </datalist>
-              <label htmlFor="link">Link</label>
+              <label htmlFor="link" style={{paddingTop:'15px'}}>Link</label>
               <input
                 type="text"
                 name="url"
@@ -293,6 +307,12 @@ const VerifiedSocialConnect = ({
             color="secondary"
             onClick={() => {
               setaddnewModal(!addnewModal);
+            }}
+            style={{
+              background: 'none',
+              color: '#979797',
+              border: '1px solid #eaeaea',
+              boxShadow: 'none',
             }}
           >
             Cancel

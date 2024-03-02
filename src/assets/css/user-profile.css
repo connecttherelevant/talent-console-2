@@ -126,6 +126,7 @@ padding: 10px;
 
 .update-div {
   float: bottom;
+  padding-top: 15px;
   width: 98%;
   border-top: 1px solid #eaeaea;
   border-bottom: none;
@@ -144,7 +145,7 @@ input {
 
 .modal.show .modal-dialog {
   transform: none;
-  max-width: 350px;
+  /* max-width: 350px; */
 }
 
 .mobile-container {
