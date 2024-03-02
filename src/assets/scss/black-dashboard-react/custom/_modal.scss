@@ -54,7 +54,7 @@
 
     button {
       margin: 10px;
-      
+      background-color: none !important;
       width: auto;
 
       &.pull-left {
@@ -101,8 +101,9 @@
     }
 
     .modal-header .close{
-        color: $danger;
+        color: #979797;
         text-shadow: none;
+        
 
         &:hover,
         &:focus{

@@ -169,7 +169,7 @@ const ConnectTheRelevant = ({
                   >
                     {" "}
                     <img src={editICon} alt="" />
-                    <span style={{ color: "#b8bbc6" }}>Edit</span>
+                    <span style={{ color: "#b8bbc6", paddingLeft: '5px', }}>Edit</span>
                   </button>
                 </div>
               </div>
@@ -242,9 +242,15 @@ const ConnectTheRelevant = ({
         </ModalBody>
         <ModalFooter>
           <Button
-            color="secondary"
+            
             onClick={() => {
               setaddnewModal(!addnewModal);
+            }}
+            style={{
+              background: 'none',
+              color: '#979797',
+              border: '1px solid #eaeaea',
+              boxShadow: 'none',
             }}
           >
             Cancel
@@ -325,9 +331,15 @@ const ConnectTheRelevant = ({
         </ModalBody>
         <ModalFooter>
           <Button
-            color="secondary"
+            
             onClick={() => {
               seteditnewModal(!editnewModal);
+            }}
+            style={{
+              background: 'none',
+              color: '#979797',
+              border: '1px solid #eaeaea',
+              boxShadow: 'none',
             }}
           >
             Cancel

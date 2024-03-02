@@ -144,6 +144,7 @@ input {
 
 .modal.show .modal-dialog {
   transform: none;
+  max-width: 350px;
 }
 
 .mobile-container {
@@ -175,6 +176,7 @@ span {
   font-weight: 500;
   font-size: 16px;
   line-height: 20px;
+
 }
 
 .info_profile {
