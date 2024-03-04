@@ -1,0 +1,13 @@
+.btn-primary:hover {
+  background-color: #2b73d0 !important;
+  background-image: none !important;
+}
+.btn-success:hover {
+  background-color: #2b73d0 !important;
+  background-image: none !important;
+}
+
+.btn-secondary:hover {
+  background-color: #eee !important;
+  background-image: none !important;
+}
