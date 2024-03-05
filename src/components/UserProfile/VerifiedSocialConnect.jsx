@@ -87,7 +87,7 @@ const VerifiedSocialConnect = ({
   return (
     <div
       className="d-flex flex-wrap align-content-center"
-      style={{ padding: "40px 24px" }}
+      style={{ padding: "20px 0px" }}
     >
       {currentUser.socialLink?.map((e, index) => {
         return (
