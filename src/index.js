@@ -15,17 +15,12 @@
 */
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ModalProvider } from "./components/ArtistProfileVerify/ModalContext";
 
 import AdminLayout from "layouts/Admin/Admin.js";
 import RTLLayout from "layouts/RTL/RTL.js";
-import {
-  transitions,
-  positions,
-  Provider as AlertProvider,
-  useAlert,
-} from "react-alert";
+import { transitions, positions, Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 import "assets/scss/black-dashboard-react.scss";
 import "assets/demo/demo.css";
@@ -38,11 +33,11 @@ import store from "./store";
 import { Provider } from "react-redux";
 import Login from "views/Login";
 import { Error404 } from "views/Error404";
-import axios from "axios";
+
 import "./assets/css/user-profile.css";
 import { AuthWrapper } from "AuthWrapper";
 // This setup could be inside a React component or hook
-
+import "./index.css";
 const App = () => {
   return (
     <AlertProvider
@@ -56,7 +51,6 @@ const App = () => {
     >
       <AuthWrapper>
         <Provider store={store}>
-          {" "}
           <ModalProvider>
             <ThemeContextWrapper>
               <BackgroundColorWrapper>

@@ -1,0 +1,25 @@
+.btn-primary:hover {
+  background-color: #2b73d0 !important;
+  background-image: none !important;
+}
+.btn-success:hover {
+  background-color: #2b73d0 !important;
+  background-image: none !important;
+}
+
+.btn-secondary:hover {
+  background-color: #eee !important;
+  background-image: none !important;
+}
+.btn-primary:focus {
+  background-color: #2b73d0 !important;
+  background-image: none !important;
+}
+.btn-success:focus {
+  background-color: #2b73d0 !important;
+  background-image: none !important;
+}
+.btn-secondary:focus {
+  background-color: #eee !important;
+  background-image: none !important;
+}

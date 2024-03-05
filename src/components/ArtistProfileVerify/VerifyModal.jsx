@@ -23,11 +23,7 @@ const VerifyModal = ({ isVisible, closeModal }) => {
       }, 1000);
     } else if (seconds === 0) {
       clearInterval(interval);
-      // Perform the action when the countdown reaches 0
       doSomething();
-      // Optionally reset the countdown and stop it
-      // setSeconds(60);
-      // setIsActive(false);
     }
     return () => clearInterval(interval);
   }, [isActive, seconds]);
@@ -88,11 +84,16 @@ const VerifyModal = ({ isVisible, closeModal }) => {
           closeModal(false);
         }}
       >
-       <div
-            style={{ fontSize: "18px", color: "#2e7ce0", fontWeight: "600", textAlign:"start", }}
-          >
-            Verify OTP
-          </div>
+        <div
+          style={{
+            fontSize: "18px",
+            color: "#2e7ce0",
+            fontWeight: "600",
+            textAlign: "start",
+          }}
+        >
+          Verify OTP
+        </div>
         <br />
         <input
           type="text"
@@ -121,10 +122,10 @@ const VerifyModal = ({ isVisible, closeModal }) => {
             closeModal(false);
           }}
           style={{
-            background: 'none',
-            color: '#979797',
-            border: '1px solid #eaeaea',
-            boxShadow: 'none',
+            background: "none",
+            color: "#979797",
+            border: "1px solid #eaeaea",
+            boxShadow: "none",
           }}
         >
           Cancel
@@ -139,12 +140,13 @@ const VerifyModal = ({ isVisible, closeModal }) => {
         >
           Resend Otp {seconds > 0 ? seconds : ""}
         </Button>
-        <Button color="primary"
-        
-        style={{
-          background: "#2e7ce0",
-        }}
-        onClick={verifyOtp}>
+        <Button
+          color="primary"
+          style={{
+            background: "#2e7ce0",
+          }}
+          onClick={verifyOtp}
+        >
           Verify
         </Button>
       </ModalFooter>

@@ -29,7 +29,6 @@ const ConnectTheRelevant = ({
   });
   const handleChange = (event) => {
     const { value, name } = event.target;
-
     setdata({ ...data, [name]: value });
   };
   const [editData, seteditData] = useState({ name: "", label: "", number: "" });
@@ -169,16 +168,19 @@ const ConnectTheRelevant = ({
                   >
                     {" "}
                     <img src={editICon} alt="" />
-                    <span style={{ color: "#b8bbc6", paddingLeft: '5px', }}>Edit</span>
+                    <span style={{ color: "#b8bbc6", paddingLeft: "5px" }}>
+                      Edit
+                    </span>
                   </button>
                 </div>
               </div>
             );
           })}
-        <div className="add-new-div d-flex justify-content-center align-content-center w-100" style={{paddingTop: '20px'}}>
-          <button type="button" onClick={addNewCTRToggle}
-          
-          >
+        <div
+          className="add-new-div d-flex justify-content-center align-content-center w-100"
+          style={{ paddingTop: "20px" }}
+        >
+          <button type="button" onClick={addNewCTRToggle}>
             Add New
           </button>
         </div>
@@ -244,15 +246,14 @@ const ConnectTheRelevant = ({
         </ModalBody>
         <ModalFooter>
           <Button
-            
             onClick={() => {
               setaddnewModal(!addnewModal);
             }}
             style={{
-              background: 'none',
-              color: '#979797',
-              border: '1px solid #eaeaea',
-              boxShadow: 'none',
+              background: "none",
+              color: "#979797",
+              border: "1px solid #eaeaea",
+              boxShadow: "none",
             }}
           >
             Cancel
@@ -333,15 +334,14 @@ const ConnectTheRelevant = ({
         </ModalBody>
         <ModalFooter>
           <Button
-            
             onClick={() => {
               seteditnewModal(!editnewModal);
             }}
             style={{
-              background: 'none',
-              color: '#979797',
-              border: '1px solid #eaeaea',
-              boxShadow: 'none',
+              background: "none",
+              color: "#979797",
+              border: "1px solid #eaeaea",
+              boxShadow: "none",
             }}
           >
             Cancel
