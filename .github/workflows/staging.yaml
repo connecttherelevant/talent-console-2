@@ -1,9 +1,9 @@
-name: CI Production
+name: CI Staging
 
 on:
   push:
     branches:
-      - main
+      - staging
   workflow_dispatch:
 
 jobs:
@@ -26,14 +26,14 @@ jobs:
           node -v
           npm i --force
           ls
-          npm run build
+          npm run build-staging
 
       - name: rsync deployments
         uses: burnett01/rsync-deployments@5.1
         with:
           switches: -avzr --delete
           path: ./build/*
-          remote_path: /var/www/html/talent/
+          remote_path: /var/www/html/stagingt/
           remote_host: 43.204.198.222
           remote_user: ubuntu
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -45,7 +45,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/html/talent/
+            cd /var/www/html/stagingt/
             echo "RewriteEngine on   
               RewriteCond %{REQUEST_FILENAME} -s [OR]
               RewriteCond %{REQUEST_FILENAME} -l [OR]
@@ -61,7 +61,7 @@ jobs:
         with:
           status: ${{ job.status }}
           channel: "#app-release"
-          text: "Talent Console deployment to production successful."
+          text: "Talent Console deployment to staging successful."
           fields: app_name:connect...,version:${{ github.sha }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.WEBHOOK_SLACK }}
@@ -72,7 +72,7 @@ jobs:
         with:
           status: ${{ job.status }}
           channel: "#app-release"
-          text: "Talent Console deployment to production failed"
+          text: "Talent Console deployment to staging failed"
           fields: app_name:connect...,version:${{ github.sha }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.WEBHOOK_SLACK }}

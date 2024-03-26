@@ -3,12 +3,13 @@
   "version": "1.2.2",
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome-free": "6.4.0",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@fortawesome/fontawesome-free": "6.4.0",
     "axios": "^1.6.7",
     "bootstrap": "4.6.2",
     "chart.js": "3.9.1",
     "classnames": "2.3.2",
+    "env-cmd": "^10.1.0",
     "perfect-scrollbar": "1.5.5",
     "prop-types": "15.8.1",
     "react": ">=16.8.0",
@@ -27,8 +28,9 @@
     "sass": "1.62.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "env-cmd -f .env.staging react-scripts start",
+    "build": "env-cmd -f .env react-scripts build",
+    "build-staging": "env-cmd -f .env.staging react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
@@ -54,7 +56,6 @@
   },
   "devDependencies": {
     "typescript": "5.0.4"
-    
   },
   "overrides": {
     "svgo": "3.0.2"

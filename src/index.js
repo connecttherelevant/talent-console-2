@@ -39,6 +39,7 @@ import { AuthWrapper } from "AuthWrapper";
 // This setup could be inside a React component or hook
 import "./index.css";
 const App = () => {
+  console.log(process.env.NODE_ENV);
   return (
     <AlertProvider
       template={AlertTemplate}
