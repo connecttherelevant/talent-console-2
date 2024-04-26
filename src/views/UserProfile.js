@@ -39,9 +39,9 @@ function UserProfile() {
   let tabsData = [
     "Account Information",
     "Connect The Relevant",
-    "Official Bio",
+    // "Official Bio",
     "Verified Social Connect",
-    "Request Official Press Kit",
+    // "Request Official Press Kit",
   ];
   const [imageIndex, setImageIndex] = useState(null);
   const [picture, setPicture] = useState("");
@@ -449,7 +449,7 @@ function UserProfile() {
               backgroundColor: "#FFFFFF",
               borderRadius: "12px",
               height: "calc(100vh-80px)",
-              
+
               // overflowY: "scroll",
             }}
             // style={{ }}
@@ -522,9 +522,12 @@ function UserProfile() {
                   ""
                 )}
                 {activeTab === tabsData[2] ? (
-                  <OfficalBio
-                    setcurrentUser={setcurrentUser}
+                  <VerifiedSocialConnect
                     currentUser={currentUser}
+                    handleInputSocialLink={handleInputSocialLink}
+                    deleteSocialLinkt={deleteSocialLinkt}
+                    deleteImage={deleteImage}
+                    addNewSocialLink={addNewSocialLink}
                   />
                 ) : (
                   ""

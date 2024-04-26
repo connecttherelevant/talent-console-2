@@ -131,15 +131,15 @@ const MobileView = ({
             </button>
           </div>
         </div>
-        <div className="bio" id="div3" ref={targetRefDiv3}>
+        {/* <div className="bio" id="div3" ref={targetRefDiv3}>
           <span>Official Bio</span>
           <div>
             <p> {currentUser.about}</p>
           </div>
-        </div>
+        </div> */}
         <div>
           {" "}
-          <div className="vsc" id="div4" ref={targetRefDiv4}>
+          <div className="vsc" id="div4" ref={targetRefDiv3}>
             <span>Verified Social Connect</span>
             <div style={{ marginTop: "20px" }}>
               {currentUser.socialLink?.map((e) => {
@@ -158,7 +158,7 @@ const MobileView = ({
           </div>
         </div>
 
-        <div className="presskit" id="div5" ref={targetRefDiv5}>
+        {/* <div className="presskit" id="div5" ref={targetRefDiv5}>
           {currentUser.pressKitEmailId && (
             <>
               <span>Request Official Press Kit</span>
@@ -167,7 +167,7 @@ const MobileView = ({
               </div>
             </>
           )}
-        </div>
+        </div> */}
       </div>
     </Col>
   );
