@@ -2,6 +2,8 @@ module.exports = Object.freeze({
   BASE_URL: process.env.REACT_APP_API_ENDPOINT,
   S3_PREFIX:
     "https://connecttherelevantstaging.s3.ap-south-1.amazonaws.com/userpic/",
+  S3_PREFIX_SOCIAL:
+    "https://connecttherelevantstaging.s3.ap-south-1.amazonaws.com/sociallink/",
   GET_OTP: "talent/webLoginSentOTp",
   VERIFY_OTP: "talent/webLoginVerifyOTp",
   GET_CATEGORY: "category/list",

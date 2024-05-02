@@ -14,12 +14,6 @@ import {
   ModalFooter,
 } from "reactstrap";
 import deleteImage from "../assets/img/delete-svgrepo-com 1.svg";
-import facebookIcon from "../assets/img/socialLink/artiste_fb.svg";
-import instagramIcon from "../assets/img/socialLink/artiste_insta.svg";
-import snapchatIcon from "../assets/img/socialLink/artiste_snapchat.svg";
-import xIcon from "../assets/img/socialLink/artiste_x.svg";
-import youtubeIcon from "../assets/img/socialLink/artiste_yt.svg";
-import wikipediaIcon from "../assets/img/socialLink/artiste_wikipedia.svg";
 import website from "../assets/img/socialLink/artiste_web.svg";
 import { useModal } from "../components/ArtistProfileVerify/ModalContext";
 import { getUser, updateProfile } from "actions/userAction";
@@ -31,8 +25,10 @@ import OfficalBio from "components/UserProfile/OfficalBio";
 import VerifiedSocialConnect from "components/UserProfile/VerifiedSocialConnect";
 import MobileView from "components/UserProfile/MobileView";
 import PressKit from "components/UserProfile/PressKit";
-
+import axios from "axios";
+import Config from "../Config";
 function UserProfile() {
+  const [sociaLinkOrder, setSociaLinkOrder] = useState([]);
   const { openModal } = useModal();
   let dateTime = new Date();
 
@@ -276,14 +272,21 @@ function UserProfile() {
     borderColor: "#2E7DE0",
     color: "#fff",
   };
+  useEffect(() => {
+    axios
+      .post(`${Config.BASE_URL}sociallink/list`, {
+        filter: { status: { $in: [1] } },
+      })
+      .then((resp) => {
+        setSociaLinkOrder(resp.data.data);
+      });
+  }, []);
   const getIcon = (label) => {
-    if (label === "Facebook") return facebookIcon;
-    else if (label === "Twitter") return xIcon;
-    else if (label === "Instagram") return instagramIcon;
-    else if (label === "YouTube") return youtubeIcon;
-    else if (label === "Snapchat") return snapchatIcon;
-    else if (label === "Wikipedia") return wikipediaIcon;
-    else {
+    let image = sociaLinkOrder.find((e) => e.label === label);
+    if (image) {
+      // console.log(`${Config.S3_PREFIX_SOCIAL}${image.image}`);
+      return `${Config.S3_PREFIX_SOCIAL}${image.image}`;
+    } else {
       return website;
     }
   };

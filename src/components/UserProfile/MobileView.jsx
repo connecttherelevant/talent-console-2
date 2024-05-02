@@ -24,16 +24,22 @@ const MobileView = ({
   getIcon,
 }) => {
   const [currentActiveTab, setCurrentActiveTab] = useState("0");
+  const [currentActiveTabSocial, setCurrentActiveTabSocial] = useState("0");
 
   // Toggle active state for Tab
   const toggle = (tab) => {
     if (currentActiveTab !== tab) setCurrentActiveTab(tab);
+  };
+  const toggleSocial = (tab) => {
+    if (currentActiveTabSocial !== tab) setCurrentActiveTabSocial(tab);
   };
   return (
     <Col md="4">
       <div className="mobile-container">
         <div id="div1" style={{ height: "350px" }} ref={targetRefDiv1}>
           <img
+            width={"100%"}
+            height={"100%"}
             src={
               picture
                 ? picture
@@ -70,25 +76,19 @@ const MobileView = ({
           </p>
         </div>
         <div id="div2" className="ManagermentConnect ctr" ref={targetRefDiv2}>
-          <span>Connect The Relevant</span>
-          <br />
-          {/* <ul>
-            {currentUser.managementConnect.map((m) => {
-              return (
-                <>
-                  {" "}
-                  <li>
-                    <p style={{ borderBottom: "3px solid #2E7DE0" }}>
-                      {" "}
-                      {m.label}{" "}
-                    </p>
-                    <hr />
-                    <p>{m.name}</p>
-                  </li>
-                </>
-              );
-            })}
-          </ul> */}
+          <span>
+            Connect The Relevant{" "}
+            <p
+              style={{
+                color: "#b8bbc6",
+                fontSize: "12px",
+                display: "inline-block",
+              }}
+            >
+              for
+            </p>
+          </span>
+
           <Nav tabs>
             {currentUser.managementConnect?.map((m, index) => {
               return (
@@ -113,7 +113,7 @@ const MobileView = ({
                 <TabPane key={m._id} tabId={`${index}`}>
                   <Row>
                     <Col sm="12">
-                      <h5>{m.name}</h5>
+                      <h5 style={{ color: "#2e7de0" }}>{m.name}</h5>
                     </Col>
                   </Row>
                 </TabPane>
@@ -131,18 +131,24 @@ const MobileView = ({
             </button>
           </div>
         </div>
-        {/* <div className="bio" id="div3" ref={targetRefDiv3}>
-          <span>Official Bio</span>
-          <div>
-            <p> {currentUser.about}</p>
-          </div>
-        </div> */}
+
         <div>
           {" "}
           <div className="vsc" id="div4" ref={targetRefDiv3}>
-            <span>Verified Social Connect</span>
+            <span>
+              Platforms{" "}
+              <p
+                style={{
+                  color: "#b8bbc6",
+                  fontSize: "12px",
+                  display: "inline-block",
+                }}
+              >
+                for
+              </p>
+            </span>
             <div style={{ marginTop: "20px" }}>
-              {currentUser.socialLink?.map((e) => {
+              {/* {currentUser.socialLink?.map((e) => {
                 return (
                   <img
                     key={e._id}
@@ -153,7 +159,80 @@ const MobileView = ({
                     alt=""
                   />
                 );
-              })}
+              })} */}
+              <Nav tabs>
+                {[
+                  { label: "Social Media" },
+                  { label: "Audio Streaming" },
+                  { label: "Other Links" },
+                ].map((m, index) => {
+                  return (
+                    <NavItem key={m._id}>
+                      <NavLink
+                        className={classnames({
+                          active: currentActiveTabSocial === `${index}`,
+                        })}
+                        onClick={() => {
+                          toggleSocial(`${index}`);
+                        }}
+                      >
+                        {m.label}
+                      </NavLink>
+                    </NavItem>
+                  );
+                })}
+              </Nav>
+              <TabContent activeTab={currentActiveTabSocial}>
+                <TabPane tabId={`0`}>
+                  {currentUser.socialLink
+                    ?.filter((e) => e.type === "social")
+                    .map((m, index) => {
+                      return (
+                        <img
+                          key={m._id}
+                          className="my-1"
+                          height={"30px"}
+                          src={getIcon(m.label)}
+                          width={"30px"}
+                          alt={m.label}
+                        />
+                      );
+                    })}
+                </TabPane>
+                <TabPane tabId={`1`}>
+                  {currentUser.socialLink
+                    ?.filter((e) => e.type === "streaming")
+                    .map((m, index) => {
+                      return (
+                        <img
+                          key={m._id}
+                          className="my-1"
+                          height={"30px"}
+                          src={getIcon(m.label)}
+                          width={"30px"}
+                          alt={m.label}
+                        />
+                      );
+                    })}
+                </TabPane>
+                <TabPane tabId={`2`}>
+                  {" "}
+                  {currentUser.socialLink
+                    ?.filter((e) => e.type === "other")
+                    .map((m, index) => {
+                      return (
+                        <img
+                          key={m._id}
+                          className="my-1"
+                          height={"30px"}
+                          width={"30px"}
+                          src={getIcon(m.label)}
+                          alt={m.label}
+                        />
+                      );
+                    })}
+                </TabPane>
+              </TabContent>
             </div>
           </div>
         </div>

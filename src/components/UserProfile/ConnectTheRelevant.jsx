@@ -2,12 +2,14 @@ import { editConnect } from "actions/connectTheReleventAction";
 import { deleteConnect } from "actions/connectTheReleventAction";
 import { addConnect } from "actions/connectTheReleventAction";
 import { getUser } from "actions/userAction";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useModal } from "../ArtistProfileVerify/ModalContext";
+import Config from "../../Config";
 import editICon from "../../assets/img/edit.svg";
+import axios from "axios";
 const ConnectTheRelevant = ({
   currentUser,
   handleInputChangeConnectTheRelevent,
@@ -21,7 +23,7 @@ const ConnectTheRelevant = ({
   const addNewCTRToggle = () => {
     setaddnewModal(!addnewModal);
   };
-
+  const [label, setlabel] = useState([]);
   const [data, setdata] = useState({
     name: "",
     number: "",
@@ -82,6 +84,15 @@ const ConnectTheRelevant = ({
           alert.error(typeof err.message === "string" ? err.message : "");
         });
   };
+  useEffect(() => {
+    axios
+      .post(`${Config.BASE_URL}label/list`, {
+        filter: { status: { $in: [1] } },
+      })
+      .then((resp) => {
+        setlabel(resp.data.data);
+      });
+  }, []);
   return (
     <div>
       {" "}
@@ -112,11 +123,10 @@ const ConnectTheRelevant = ({
                   }}
                 />
                 <datalist id="labelOptions">
-                  <option value="Shows & Events"></option>
-                  <option value="Recordings"></option>
-                  <option value="Endorsements"></option>
-                  <option value="Social Media Management"></option>
-                  <option value="Public Relations"></option>
+                  {label.length &&
+                    label.map((e) => {
+                      return <option value={e.label}></option>;
+                    })}
                 </datalist>
                 <label htmlFor="name">Name</label>
                 <input
@@ -217,11 +227,10 @@ const ConnectTheRelevant = ({
                 onChange={handleChange}
               />
               <datalist id="labelOptions">
-                <option value="Shows & Events"></option>
-                <option value="Recordings"></option>
-                <option value="Endorsements"></option>
-                <option value="Social Media Management"></option>
-                <option value="Public Relations"></option>
+                {label.length &&
+                  label.map((e) => {
+                    return <option value={e.label}></option>;
+                  })}
               </datalist>
               <label htmlFor="name">Name</label>
               <input
@@ -303,11 +312,10 @@ const ConnectTheRelevant = ({
                 onChange={handleChangeEdit}
               />
               <datalist id="labelOptions">
-                <option value="Shows & Events"></option>
-                <option value="Recordings"></option>
-                <option value="Endorsements"></option>
-                <option value="Social Media Management"></option>
-                <option value="Public Relations"></option>
+                {label.length &&
+                  label.map((e) => {
+                    return <option value={e.label}></option>;
+                  })}
               </datalist>
               <label htmlFor="name">Name</label>
               <input

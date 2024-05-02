@@ -100,7 +100,7 @@ textarea {
 .pressKit {
   border: 0.5px solid #eaeaea;
   border-radius: 8px;
-padding: 10px;
+  padding: 10px;
   height: 46px;
   width: 50%;
 }
@@ -139,7 +139,7 @@ input {
 }
 
 .modal {
-  background: rgba(0,0,0,0.5) !important;
+  background: rgba(0, 0, 0, 0.5) !important;
   backdrop-filter: blur(4px);
 }
 
@@ -160,7 +160,6 @@ input {
 
   scrollbar-width: none;
   -ms-overflow-style: none;
-  
 }
 
 .mobile-container div {
@@ -177,7 +176,6 @@ span {
   font-weight: 500;
   font-size: 16px;
   line-height: 20px;
-
 }
 
 .info_profile {
@@ -219,6 +217,16 @@ span {
   margin-bottom: 15px;
   /* margin-top: 10px; */
 }
+.vsc ul {
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  margin-left: -16px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin-bottom: 15px;
+  /* margin-top: 10px; */
+}
 .nav-link:hover {
   color: #1a1c3a !important;
 }
@@ -237,7 +245,13 @@ span {
   flex-wrap: nowrap !important;
 }
 .nav-tabs .nav-link.active {
-  border-bottom: #2e7de0 4px solid !important;
+  /* border-bottom: #2e7de0 4px solid !important;
+   */
+  color: #ffffff;
+  background-color: #2e7de0 !important;
+}
+.nav-tabs:hover .nav-link.active:hover {
+  color: #ffffff;
 }
 /* .ctr ul {
   display: flex;
