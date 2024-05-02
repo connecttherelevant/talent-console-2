@@ -113,7 +113,7 @@ const MobileView = ({
                 <TabPane key={m._id} tabId={`${index}`}>
                   <Row>
                     <Col sm="12">
-                      <h5 style={{ color: "#2e7de0" }}>{m.name}</h5>
+                      <h5 style={{ color: "#2e7de0", marginLeft: "-12px", fontSize:"14px" }}>{m.name}</h5>
                     </Col>
                   </Row>
                 </TabPane>
@@ -194,7 +194,7 @@ const MobileView = ({
                         <img
                           key={m._id}
                           className="m-1"
-                          height={"30px"}
+                         
                           src={getIcon(m.label)}
                           width={"30px"}
                           alt={m.label}
@@ -210,7 +210,7 @@ const MobileView = ({
                         <img
                           key={m._id}
                           className="m-1"
-                          height={"30px"}
+                          
                           src={getIcon(m.label)}
                           width={"30px"}
                           alt={m.label}
@@ -227,7 +227,7 @@ const MobileView = ({
                         <img
                           key={m._id}
                           className="m-1"
-                          height={"30px"}
+                          
                           width={"30px"}
                           src={getIcon(m.label)}
                           alt={m.label}
