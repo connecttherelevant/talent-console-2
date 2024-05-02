@@ -154,7 +154,7 @@ input {
   border: 1px solid #ccc;
   /* padding: 10px; */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 30px;
+  border-radius: 20px;
   height: 700px;
   overflow-y: scroll;
 
@@ -198,30 +198,52 @@ span {
 }
 
 .ctr {
-  padding: 0px 20px 20px 20px;
+  padding: 0px 10px 20px 10px;
   text-align: left !important;
+ 
+}
+
+.white_card {
+  border-radius: 12px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 10px;
 }
 
 .ctr span {
   color: #2e7de0 !important;
   font-size: 16px;
   font-weight: 600;
+  margin-left: 10px;
 }
 .ctr ul {
   width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
-  margin-left: -16px;
+  /* margin-left: -16px; */
   scrollbar-width: none;
   -ms-overflow-style: none;
   margin-bottom: 15px;
   /* margin-top: 10px; */
 }
+
+.nav-tabs {
+  border-bottom: none;}
+
+  .nav-tabs .nav-link {
+    border-radius: 4px;
+    margin-bottom: 0;
+  }
+
+  .nav-link.active:hover {
+   background-color: #e05252 !important;
+}
+
 .vsc ul {
   width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
-  margin-left: -16px;
+  /* margin-left: -16px; */
   scrollbar-width: none;
   -ms-overflow-style: none;
   margin-bottom: 15px;
@@ -247,7 +269,7 @@ span {
 .nav-tabs .nav-link.active {
   /* border-bottom: #2e7de0 4px solid !important;
    */
-  color: #ffffff;
+  color: #ffffff !important;
   background-color: #2e7de0 !important;
 }
 .nav-tabs:hover .nav-link.active:hover {
@@ -288,6 +310,8 @@ span {
   border-radius: 8px;
 }
 
+.row {margin: 0px;}
+
 .bio {
   padding: 10px 20px 20px 20px;
   text-align: left !important;
@@ -308,13 +332,14 @@ span {
 }
 
 .vsc {
-  padding: 0px 20px 20px 20px;
+  padding: 0px 10px 20px 10px;
 }
 
 .vsc span {
   color: #2e7de0 !important;
   font-size: 16px;
   font-weight: 600;
+  margin-left: 10px;
 }
 
 .presskit {

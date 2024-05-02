@@ -88,7 +88,7 @@ const MobileView = ({
               for
             </p>
           </span>
-
+<div className="white_card">
           <Nav tabs>
             {currentUser.managementConnect?.map((m, index) => {
               return (
@@ -129,6 +129,7 @@ const MobileView = ({
               />
               Connect
             </button>
+            </div>
           </div>
         </div>
 
@@ -147,6 +148,7 @@ const MobileView = ({
                 for
               </p>
             </span>
+            <div className="white_card">
             <div style={{ marginTop: "20px" }}>
               {/* {currentUser.socialLink?.map((e) => {
                 return (
@@ -160,6 +162,7 @@ const MobileView = ({
                   />
                 );
               })} */}
+
               <Nav tabs>
                 {[
                   { label: "Social Media" },
@@ -233,6 +236,7 @@ const MobileView = ({
                     })}
                 </TabPane>
               </TabContent>
+            </div>
             </div>
           </div>
         </div>
