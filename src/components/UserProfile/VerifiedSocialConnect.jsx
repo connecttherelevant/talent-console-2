@@ -123,90 +123,8 @@ const VerifiedSocialConnect = ({
       style={{ padding: "20px 0px" }}
     >
       <Accordion defaultActiveKey="0" style={{ width: "100%" }}>
+        {" "}
         <Accordion.Item eventKey="0">
-          <Accordion.Header>Audio Streaming</Accordion.Header>
-          <Accordion.Body style={{ width: "100%", display: "flex" }}>
-            {currentUser.socialLink
-              ?.filter((e, index) => e.type === "streaming")
-              .map((e, index) => {
-                return (
-                  <div
-                    key={e._id}
-                    className="single-connect-the-relevent d-flex flex-column"
-                  >
-                    <label htmlFor="label">Label</label>
-                    <input
-                      type="text"
-                      id="label"
-                      maxLength={20}
-                      style={{ color: "#2E7DE0" }}
-                      list="SociallabelOptions"
-                      name="label"
-                      value={e.label}
-                      disabled
-                      required
-                      onChange={(e) => {
-                        handleInputSocialLink(e, index);
-                      }}
-                    />
-                    <datalist id="SociallabelOptions">
-                      {labelOrder
-                        .filter((e) => e.type === "streaming")
-                        .map((e) => {
-                          return <option value={e.label}></option>;
-                        })}
-                    </datalist>
-                    <label htmlFor="link" style={{ paddingTop: "15px" }}>
-                      Link
-                    </label>
-                    <input
-                      type="text"
-                      name="url"
-                      id="link"
-                      value={e.url}
-                      disabled
-                      maxLength={100}
-                      required
-                      onChange={(e) => {
-                        handleInputSocialLink(e, index);
-                      }}
-                    />
-                    <div style={{ display: "flex" }}>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          deleteSocialLinkt(e._id);
-                        }}
-                      >
-                        <span>
-                          <img src={deleteImage} alt="" />
-                          Delete
-                        </span>
-                      </button>{" "}
-                      <button
-                        type="button"
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                        onClick={() => {
-                          toggleEditModal(index, "streaming");
-                        }}
-                      >
-                        {" "}
-                        <img src={editICon} alt="" />
-                        <span style={{ color: "#b8bbc6", paddingLeft: "5px" }}>
-                          Edit
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-          </Accordion.Body>
-        </Accordion.Item>
-        <Accordion.Item eventKey="1">
           <Accordion.Header>Social Media</Accordion.Header>
           <Accordion.Body style={{ width: "100%", display: "flex" }}>
             {currentUser.socialLink
@@ -275,6 +193,89 @@ const VerifiedSocialConnect = ({
                         }}
                         onClick={() => {
                           toggleEditModal(index, "social");
+                        }}
+                      >
+                        {" "}
+                        <img src={editICon} alt="" />
+                        <span style={{ color: "#b8bbc6", paddingLeft: "5px" }}>
+                          Edit
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+          </Accordion.Body>
+        </Accordion.Item>
+        <Accordion.Item eventKey="1 ">
+          <Accordion.Header>Audio Streaming</Accordion.Header>
+          <Accordion.Body style={{ width: "100%", display: "flex" }}>
+            {currentUser.socialLink
+              ?.filter((e, index) => e.type === "streaming")
+              .map((e, index) => {
+                return (
+                  <div
+                    key={e._id}
+                    className="single-connect-the-relevent d-flex flex-column"
+                  >
+                    <label htmlFor="label">Label</label>
+                    <input
+                      type="text"
+                      id="label"
+                      maxLength={20}
+                      style={{ color: "#2E7DE0" }}
+                      list="SociallabelOptions"
+                      name="label"
+                      value={e.label}
+                      disabled
+                      required
+                      onChange={(e) => {
+                        handleInputSocialLink(e, index);
+                      }}
+                    />
+                    <datalist id="SociallabelOptions">
+                      {labelOrder
+                        .filter((e) => e.type === "streaming")
+                        .map((e) => {
+                          return <option value={e.label}></option>;
+                        })}
+                    </datalist>
+                    <label htmlFor="link" style={{ paddingTop: "15px" }}>
+                      Link
+                    </label>
+                    <input
+                      type="text"
+                      name="url"
+                      id="link"
+                      value={e.url}
+                      disabled
+                      maxLength={100}
+                      required
+                      onChange={(e) => {
+                        handleInputSocialLink(e, index);
+                      }}
+                    />
+                    <div style={{ display: "flex" }}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          deleteSocialLinkt(e._id);
+                        }}
+                      >
+                        <span>
+                          <img src={deleteImage} alt="" />
+                          Delete
+                        </span>
+                      </button>{" "}
+                      <button
+                        type="button"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                        onClick={() => {
+                          toggleEditModal(index, "streaming");
                         }}
                       >
                         {" "}

@@ -190,7 +190,7 @@ const MobileView = ({
                       return (
                         <img
                           key={m._id}
-                          className="my-1"
+                          className="m-1"
                           height={"30px"}
                           src={getIcon(m.label)}
                           width={"30px"}
@@ -206,7 +206,7 @@ const MobileView = ({
                       return (
                         <img
                           key={m._id}
-                          className="my-1"
+                          className="m-1"
                           height={"30px"}
                           src={getIcon(m.label)}
                           width={"30px"}
@@ -223,7 +223,7 @@ const MobileView = ({
                       return (
                         <img
                           key={m._id}
-                          className="my-1"
+                          className="m-1"
                           height={"30px"}
                           width={"30px"}
                           src={getIcon(m.label)}
