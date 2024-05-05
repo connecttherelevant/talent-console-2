@@ -78,15 +78,7 @@ const MobileView = ({
         <div id="div2" className="ManagermentConnect ctr" ref={targetRefDiv2}>
           <span>
             Connect The Relevant{" "}
-            <p
-              style={{
-                color: "#b8bbc6",
-                fontSize: "12px",
-                display: "inline-block",
-              }}
-            >
-              for
-            </p>
+      
           </span>
 <div className="white_card">
           <Nav tabs>
@@ -138,15 +130,7 @@ const MobileView = ({
           <div className="vsc" id="div4" ref={targetRefDiv3}>
             <span>
               Platforms{" "}
-              <p
-                style={{
-                  color: "#b8bbc6",
-                  fontSize: "12px",
-                  display: "inline-block",
-                }}
-              >
-                for
-              </p>
+    
             </span>
             <div className="white_card">
             <div style={{ marginTop: "20px" }}>
