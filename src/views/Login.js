@@ -138,7 +138,7 @@ const Login = () => {
                   />
                 </FormGroup>
               )}
-              <Button color="info">Get OTP</Button>
+              <Button color="info">{!type ? "Get OTP" : "Verify OTP"}</Button>
             </Form>
           </Container>
         </Col>
