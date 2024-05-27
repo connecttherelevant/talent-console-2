@@ -19,7 +19,12 @@ const ConnectTheRelevant = ({
   let { user } = useSelector((state) => state.loginData);
   const alert = useAlert();
   const dispatch = useDispatch();
+  const removeNonDigits = (str) => {
+    return str.replace(/\D/g, "");
+  };
+
   const [addnewModal, setaddnewModal] = useState(false);
+
   const addNewCTRToggle = () => {
     setaddnewModal(!addnewModal);
   };
@@ -30,7 +35,10 @@ const ConnectTheRelevant = ({
     label: "",
   });
   const handleChange = (event) => {
-    const { value, name } = event.target;
+    if (event.target.name == "number") {
+      event.target.value = removeNonDigits(event.target.value);
+    }
+    let { value, name } = event.target;
     setdata({ ...data, [name]: value });
   };
   const [editData, seteditData] = useState({ name: "", label: "", number: "" });
@@ -40,8 +48,10 @@ const ConnectTheRelevant = ({
     seteditnewModal(!editnewModal);
   };
   const handleChangeEdit = (event) => {
-    const { value, name } = event.target;
-
+    if (event.target.name == "number") {
+      event.target.value = removeNonDigits(event.target.value);
+    }
+    let { value, name } = event.target;
     seteditData({ ...editData, [name]: value });
   };
   const addCtr = async () => {
