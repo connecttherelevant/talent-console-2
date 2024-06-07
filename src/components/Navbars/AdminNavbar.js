@@ -139,7 +139,7 @@ function AdminNavbar(props) {
                     localNotification.find((e) => !e.isViewed) && (
                       <div className="notification d-none d-lg-block d-xl-block" />
                     )}
-                  <i className="tim-icons icon-sound-wave" />
+                  <i className="tim-icons icon-bell-55" />
                   <p className="d-lg-none">Notifications</p>
                 </DropdownToggle>
                 {localNotification && localNotification.length && (
