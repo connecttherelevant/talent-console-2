@@ -45,8 +45,8 @@ const App = () => {
     <AlertProvider
       template={AlertTemplate}
       {...{
-        position: positions.TOP_RIGHT,
-        timeout: 5000,
+        position: positions.BOTTOM_RIGHT,
+        timeout: 50000,
         offset: "30px",
         transition: transitions.SCALE,
       }}
